@@ -10,6 +10,26 @@ const routes = [
     name: 'home',
     component: HomeView
   },
+  {
+    path: '/sobre',
+    name: 'about',
+    component: () => import('../views/AboutView.vue')
+  },
+  {
+    path: '/contato',
+    name: 'contact',
+    component: () => import('../views/ContactView.vue')
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/auth/LoginView.vue')
+  },
+  {
+    path: '/cadastro',
+    name: 'register',
+    component: () => import('../views/auth/RegisterView.vue')
+  },
   // {
   //   path: '/about',
   //   name: 'about',

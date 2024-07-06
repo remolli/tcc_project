@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <b-col>
+    <b-col style="padding-top:100px;">
       <b-row v-for="(item,idx) in items" :key="idx" class="m-0" align-h="center">
         {{ item.title }}
       </b-row>

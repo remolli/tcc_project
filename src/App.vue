@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <nav style="position:fixed; width:100%;">
+    <nav style="z-index:10; position:fixed; width:100%; background:white; border-bottom:2px solid #e1e1e3; box-shadow: 0px 5px 20px #00000020">
       <b-row>
         <b-col>
           <router-link to="/">Home</router-link>

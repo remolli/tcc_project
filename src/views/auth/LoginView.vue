@@ -1,10 +1,13 @@
 <template>
     <div id="login">
         <b-form @submit.prevent="login">
-            <b-col class="px-4 py-5" style="border:3px solid #E1E1E3; border-radius:20px; background:#F9F9FB;">
-                <b-row class="mx-0 pb-4 mb-2">
-                    <span style="font-size:20px;">
-                        Acesse sua conta
+            <b-col>
+                <b-row align-h="center">
+                    <img class="logo-large" src="@/assets/logo.svg" alt="Logo Notícia para Todos">
+                </b-row>
+                <b-row class="mx-0 pb-4 mb-2 mt-2">
+                    <span style="font-size:20px; font-weight:300;">
+                        Entrar em Notícia para Todos
                     </span>
                 </b-row>
                 <b-row class="mx-0">
@@ -13,6 +16,7 @@
                         id="inputEmail"
                         name="inputEmail"
                         type="email"
+                        placeholder="Digite aqui seu e-mail"
                         v-model="email"
                         :state="isValidEmail(email)"
                         :disabled="loading"
@@ -21,7 +25,6 @@
                         </b-form-input>
                     </b-form-group>
                 </b-row>
-                <div class="py-1"></div>
                 <b-row class="mx-0">
                     <b-form-group label="Senha" label-for="inputPassword" label-align="start">
                         <b-input-group>
@@ -29,6 +32,7 @@
                             id="inputPassword"
                             name="inputPassword"
                             :type="visibility ? 'text' : 'password'"
+                            placeholder="Digite aqui sua senha"
                             v-model="password"
                             :state="isValidPassword(password)"
                             :disabled="loading"
@@ -43,16 +47,27 @@
                         </b-input-group>
                     </b-form-group>
                 </b-row>
-                <div class="py-1"></div>
-                <b-row class="mx-0 pt-1 pb-2" align-h="between">
+                <b-row align-h="start" class="mx-3 mb-3">
+                    <b-col class="p-0 mr-4 d-flex justify-content-start" style="max-width:fit-content;">
+                        <b-checkbox style="max-width:fit-content;">Lembrar de mim</b-checkbox>
+                    </b-col>
+                    <b-col class="p-0 ml-4 d-flex justify-content-end" style="max-width:fit-content;">
+                        <b-row class="mx-0" align-h="end">
+                            <span class="pr-2" style="max-width:fit-content">Não possui conta?</span>
+                            <b-link to="/cadastro" style="max-width:fit-content; padding-right:0px; padding-left:0px;">
+                                Cadastre-se
+                            </b-link>
+                        </b-row>
+                    </b-col>
+                </b-row>
+                <!-- <b-row class="mx-0 my-4" align-h="between">
                     <span style="max-width:fit-content">Não possui conta?</span>
                     <b-link to="/cadastro" style="max-width:fit-content">
                         Cadastre-se
                     </b-link>
-                </b-row>
-                <div class="py-3"></div>
-                <b-row class="mx-2">
-                    <b-button type="submit" variant="success" style="border-radius:8px;" :disabled="loading">
+                </b-row> -->
+                <b-row class="mx-3 pt-4">
+                    <b-button type="submit" variant="success" style="border-radius:8px; padding:10px 0px;" :disabled="loading">
                         <span v-if="loading"><b-spinner small></b-spinner></span>
                         <span v-else>Entrar</span>
                     </b-button>
@@ -103,10 +118,19 @@ export default {
     align-items: center;
     height:100%;
     width:100%;
+    background-color: #F1FFFA;
 }
 .eye-button{
     border-top-left-radius: 0px;
     border-bottom-left-radius: 0px;
     border-color: #E1E1E3;
+    background-color: white;
+}
+.eye-button:hover{
+    color:black;
+}
+.eye-button:active{
+    background-color: #F1F1F3 !important;
+    color:black !important;
 }
 </style>

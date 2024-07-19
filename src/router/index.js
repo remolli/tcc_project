@@ -28,7 +28,7 @@ const routes = [
   {
     path: '/cadastro',
     name: 'register',
-    component: () => import('../views/auth/RegisterView.vue')
+    component: () => import('../views/auth/RegisterPage.vue')
   },
   // {
   //   path: '/about',

@@ -60,6 +60,42 @@ nav a.router-link-exact-active {
   object-fit: contain;
 }
 
+label {
+  margin-bottom: 0px;
+}
+.form-group {
+  margin-bottom: 10px;
+}
+.form-control {
+  padding: 20px 10px !important;
+}
+
+.eye-button{
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-color: #E1E1E3;
+    background-color: white !important;
+}
+.eye-button:hover{
+    background-color: #F1F1F3 !important;
+    color:black !important;
+}
+.eye-button:active{
+    background-color: #E1E1E3 !important;
+    color:black !important;
+}
+
+::placeholder {
+  color: black !important;
+  opacity: .5 !important;
+  font-size: 14px;
+}
+::-ms-input-placeholder {
+  color: black !important;
+  opacity: .5 !important;
+  font-size: 14px;
+}
+
 /* .fill-success-button{
   
 } */

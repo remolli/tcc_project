@@ -9,9 +9,6 @@
           <router-link to="/sobre">Sobre</router-link>  
         </b-col>
         <b-col>
-          <router-link to="/contato">Contato</router-link>
-        </b-col>
-        <b-col>
           <router-link to="/login">Login</router-link>
         </b-col>
         <b-col>
@@ -19,6 +16,9 @@
         </b-col>
         <b-col>
           <router-link to="/recuperar">Recuperar senha</router-link>
+        </b-col>
+        <b-col>
+          <router-link to="/feedback">Feedback</router-link>
         </b-col>
       </b-row>
     </nav>

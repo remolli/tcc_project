@@ -16,9 +16,9 @@ const routes = [
     component: () => import('../views/AboutView.vue')
   },
   {
-    path: '/contato',
-    name: 'contact',
-    component: () => import('../views/ContactView.vue')
+    path: '/feedback',
+    name: 'feedback',
+    component: () => import('../views/FeedbackView.vue')
   },
   {
     path: '/login',

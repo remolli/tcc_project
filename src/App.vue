@@ -17,6 +17,9 @@
         <b-col>
           <router-link to="/cadastro">Cadastro</router-link>
         </b-col>
+        <b-col>
+          <router-link to="/recuperar">Recuperar senha</router-link>
+        </b-col>
       </b-row>
     </nav>
     <router-view/>

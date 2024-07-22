@@ -60,12 +60,6 @@
                             </b-row>
                         </b-col>
                     </b-row>
-                    <!-- <b-row class="mx-0 my-4" align-h="between">
-                        <span style="max-width:fit-content">Não possui conta?</span>
-                        <b-link to="/cadastro" style="max-width:fit-content">
-                            Cadastre-se
-                        </b-link>
-                    </b-row> -->
                     <b-row class="mx-3 pt-4">
                         <b-button type="submit" variant="success" style="border-radius:8px; padding:10px 0px;" :disabled="loading">
                             <span v-if="loading"><b-spinner small></b-spinner></span>

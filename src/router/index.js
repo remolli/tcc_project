@@ -23,12 +23,17 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('../views/auth/LoginView.vue')
+    component: () => import('../views/auth/login/LoginView.vue')
   },
   {
     path: '/cadastro',
     name: 'register',
-    component: () => import('../views/auth/RegisterPage.vue')
+    component: () => import('../views/auth/register/RegisterPage.vue')
+  },
+  {
+    path: '/recuperar',
+    name: 'recover',
+    component: () => import('../views/auth/recover/RecoverPage.vue')
   },
   // {
   //   path: '/about',

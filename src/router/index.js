@@ -18,7 +18,7 @@ const routes = [
   {
     path: '/feedback',
     name: 'feedback',
-    component: () => import('../views/FeedbackView.vue')
+    component: () => import('../views/feedback/FeedbackView.vue')
   },
   {
     path: '/login',

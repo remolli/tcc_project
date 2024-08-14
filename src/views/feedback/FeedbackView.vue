@@ -71,17 +71,20 @@
                                         >
                                         </b-form-textarea>
                                     </b-row>
-                                    <!-- <b-row align-h="end" :style="comment.length==225 ? 'color:red;' : 'color:#676;'">
-                                        {{ comment.length+'/'+225 }}
-                                    </b-row> -->
                                 </b-col>
-                                <b-col cols="4"></b-col>
+                                <b-col cols="4" align-self="center">
+                                    <b-form-rating
+                                    id="inputRating"
+                                    name="inputRating"
+                                    class="rating-input"
+                                    v-model="stars"
+                                    ></b-form-rating>
+                                </b-col>
                                 <b-col cols="1" align-self="center">
                                     <b-row>
                                         <b-button variant="link" class="p-0" style="color:#ccc !important; font-size:40px;">
                                             <b-icon icon="play"></b-icon>
                                         </b-button>
-
                                     </b-row>
                                 </b-col>
                             </b-row>
@@ -104,10 +107,15 @@ export default {
         return {
             loading: false,
             comment: '',
+            stars: 0,
+            isMobile: false,
         }
     },
-    computed:{
-
+    created(){
+        function reportWindowSize() {
+            this.isMobile = window.innerWidth < 900;
+            console.log(this.isMobile)
+        } window.onresize = reportWindowSize;
     },
     methods:{
         async feedback(){
@@ -131,6 +139,7 @@ export default {
     height:100%;
     width:100%;
     background-color: #F1FFFA;
+    padding: 20px;
 }
 
 .feedback-container{
@@ -140,7 +149,8 @@ export default {
     align-items: center;
     background-color:white;
     border-radius:40px;
-    height:500px;
+    /* height: 350px; */
+    height: 60vh;
     box-shadow: 0px 0px 50px #00000015;
 }
 
@@ -151,7 +161,8 @@ export default {
 
 .input-bar{
     background-color: #353535;
-    height: 100px;
+    min-height: 100px;
+    height:fit-content;
     width:100%;
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
@@ -161,13 +172,18 @@ export default {
     color: #CCCCCC;
     border: none;
     font-size: 20px !important;
-    overflow: hidden;
-    height: 0px;
+    overflow-y: auto;
+    height: 46px;
 }
 .textarea-input::placeholder{
     background-color: transparent;
     border: none;
     color: #AAAAAA !important;
     font-size: 20px !important;
+}
+.rating-input{
+    background-color: #555555;
+    color: yellow;
+    border: none;
 }
 </style>

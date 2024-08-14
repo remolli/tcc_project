@@ -15,11 +15,18 @@
                 </b-col>
                 <!-- Stars -->
                 <b-col cols="3" align-self="center">
-                    <b-row>
+                    <b-form-rating
+                    id="inputRating"
+                    name="inputRating"
+                    class="rating-input"
+                    :value="5"
+                    disabled
+                    ></b-form-rating>
+                    <!-- <b-row>
                         <b-col v-for="star in stars" :key="star" class="comment-star" style="color: #FFFF00;">
                             <b-icon icon="star-fill"></b-icon>
                         </b-col>
-                    </b-row>
+                    </b-row> -->
                 </b-col>
 
             </b-row>
@@ -62,6 +69,11 @@ export default {
     color: #aaa;
 }
 .comment-star {
+    color: yellow;
+}
+.rating-input {
+    background-color: #555555;
+    border: none;
     color: yellow;
 }
 .comment-text {

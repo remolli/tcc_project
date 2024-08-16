@@ -12,14 +12,14 @@
                     'object-fit': 'contain',
                 }">
             </b-row>
-            <b-row> Title:  {{ title || '---' }}  </b-row>
-            <b-row> Abstract:  {{ abstract || '---' }}  </b-row>
-            <b-row> Section:  {{ section || '---' }}  </b-row>
-            <b-row> Subsection:  {{ subsection || '---' }}  </b-row>
-            <b-row> {{ writtenBy || '---' }}  </b-row>
-            <b-row> Published at:  {{ publishDate || '---' }}  </b-row>
-            <b-row> Last updated at:  {{ lastEditDate || '---' }}  </b-row>
-            <b-row> Url:  {{ url || '---' }}  </b-row>
+            <b-row class="article_content"> Title:  {{ title || '---' }}  </b-row>
+            <b-row class="article_content"> Abstract:  {{ abstract || '---' }}  </b-row>
+            <b-row class="article_content"> Section:  {{ section || '---' }}  </b-row>
+            <b-row class="article_content"> Subsection:  {{ subsection || '---' }}  </b-row>
+            <b-row class="article_content"> {{ writtenBy || '---' }}  </b-row>
+            <b-row class="article_content"> Published at:  {{ publishDate || '---' }}  </b-row>
+            <b-row class="article_content"> Last updated at:  {{ lastEditDate || '---' }}  </b-row>
+            <b-row class="article_content"> Url:  {{ url || '---' }}  </b-row>
         </b-col>
     </div>
 </template>

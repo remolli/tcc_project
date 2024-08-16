@@ -98,7 +98,7 @@ export default {
     },
   },
   async created(){
-    await this.loadData(7);
+    await this.loadData(30);
   },
   methods: {
     async loadData(period){
@@ -106,7 +106,7 @@ export default {
         this.loading = true;
         const response = await this.$axios.get('mostpopular/v2/emailed/'+period+'.json');
         console.log(response);
-        this.items = response.data.results;
+        this.items = response.data.results.filter(e=>e.media[0]?.['media-metadata']?.length>0);
       }
       catch(error){
         console.log(error);
@@ -119,7 +119,6 @@ export default {
         const response = await this.$axios.get('search/v2/articlesearch.json?q='+this.query+'&sort='+this.sort);
         console.log(response);
         this.queryItems = response.data.response.docs;
-        // docs - meta - facets
       }
       catch(error){
         console.log(error);

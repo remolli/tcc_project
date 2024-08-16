@@ -1,8 +1,8 @@
 <template>
     <b-col class="about-card-person d-flex flex-column justify-content-center align-items-center p-0">
-        <b-row style="height:50%;" align-v="center"><span class="about-card-name"> {{ name }} </span></b-row>
+        <b-row style="height:50%;" align-v="center"><span class="about-card-name" :style="isMobile? 'font-size:18px;' :''"> {{ name }} </span></b-row>
         <div style="width:100%; border-bottom: 3px solid #555555;"></div>
-        <b-row style="height:50%;" align-v="center"><span class="about-card-func"> {{ func }} </span></b-row>
+        <b-row style="height:50%;" align-v="center"><span class="about-card-func" :style="isMobile? 'font-size:16px;' :''"> {{ func }} </span></b-row>
     </b-col>
 </template>
 
@@ -10,6 +10,7 @@
 export default {
     name: 'CardPerson',
     props: {
+        isMobile: Boolean,
         name: String,
         func: String,
     },

@@ -2,7 +2,7 @@
     <b-row class="m-0 comment-container">
         <b-col>
 
-            <b-row>
+            <b-row :cols="isMobile ? '1' : '2'" align-h="between">
 
                 <!-- User info -->
                 <b-col>
@@ -14,7 +14,7 @@
                     </b-row>
                 </b-col>
                 <!-- Stars -->
-                <b-col cols="3" align-self="center">
+                <b-col style="max-width: 200px;" align-self="center" :class="isMobile? 'my-2' : ''">
                     <b-form-rating
                     id="inputRating"
                     name="inputRating"
@@ -46,6 +46,7 @@
 export default {
     name: "CommentComponent",
     props:{
+        isMobile: Boolean,
         name: String,
         date: String,
         text: String,

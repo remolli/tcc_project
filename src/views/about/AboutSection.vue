@@ -1,15 +1,18 @@
 <template>
-    <div style="width:100%; max-width:2000px;">
-        <b-row v-if="!reverse" class="about-section" align-v="center" :style="'background-color: '+backgroundColor+';'">
+    <div style="width:100%; max-width:2000px;" :style="isMobile? 'width:100vw;max-width:100vw;' :''">
+        <b-row v-if="!reverse || isMobile" class="about-section mx-0"
+        :cols="isMobile ? '1' : '2'"
+        :style="'background-color: '+backgroundColor+'; padding:20px;' + (isMobile ? 'width:100vw;height:100vh;' : '')"
+        align-v="center">
             <b-col>
                 <b-row align-h="center"><h1 class="about-title"> {{ title }} </h1></b-row>
                 <b-row align-h="center"><span class="about-text"> {{ text }} </span></b-row>
             </b-col>
             <b-col class="d-flex align-items-center justify-content-center">
-                <CardPerson :name="name" :func="func"/>
+                <CardPerson :isMobile="isMobile" :name="name" :func="func"/>
             </b-col>
         </b-row>
-        <b-row v-else class="about-section" align-v="center" :style="'background-color: '+backgroundColor+';'">
+        <b-row v-else class="about-section" :cols="isMobile ? '1' : '2'" align-v="center" :style="'background-color: '+backgroundColor+';'">
             <b-col class="d-flex align-items-center justify-content-center">
                 <CardPerson :name="name" :func="func"/>
             </b-col>
@@ -30,6 +33,7 @@ export default {
         CardPerson,
     },
     props: {
+        isMobile: Boolean,
         reverse: Boolean,
         backgroundColor: String,
         title: String,
@@ -44,6 +48,7 @@ export default {
 .about-section{
     min-height:300px;
     width:100%;
+    padding:20px;
 }
 .about-title{
     max-width: 600px;

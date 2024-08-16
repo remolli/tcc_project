@@ -37,5 +37,7 @@ export default {
 #register{
     height:100%;
     width:100%;
+    padding:20px;
+    background-color: #F1FFFA;
 }
 </style>

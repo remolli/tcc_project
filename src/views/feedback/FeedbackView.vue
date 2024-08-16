@@ -12,39 +12,10 @@
                         </span>
                     </b-row>
                     <b-row>
-                        <b-col class="feedback-container p-0">
-                            <div class="comments-container">
-                                <CommentComponent 
-                                :stars="5"
-                                :name="'Eu mesmo'"
-                                :date="'13/08/2024 - 21:59'"
-                                :text="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur libero augue, at porttitor massa ultricies a. Donec eu mollis elit, vitae sagittis turpis. Cras pellentesque tristique tempor. Praesent ac elit nec urna malesuada ultricies nec non libero. Pellentesque placerat congue sagittis. In quam dui, lacinia eu quam et, cursus sollicitudin ante.'"
-                                />
-                                <CommentComponent 
-                                :stars="5"
-                                :name="'Eu mesmo'"
-                                :date="'13/08/2024 - 21:59'"
-                                :text="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur libero augue, at porttitor massa ultricies a. Donec eu mollis elit, vitae sagittis turpis. Cras pellentesque tristique tempor. Praesent ac elit nec urna malesuada ultricies nec non libero. Pellentesque placerat congue sagittis. In quam dui, lacinia eu quam et, cursus sollicitudin ante.'"
-                                />
-                                <CommentComponent 
-                                :stars="5"
-                                :name="'Eu mesmo'"
-                                :date="'13/08/2024 - 21:59'"
-                                :text="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur libero augue, at porttitor massa ultricies a. Donec eu mollis elit, vitae sagittis turpis. Cras pellentesque tristique tempor. Praesent ac elit nec urna malesuada ultricies nec non libero. Pellentesque placerat congue sagittis. In quam dui, lacinia eu quam et, cursus sollicitudin ante.'"
-                                />
-                                <CommentComponent 
-                                :stars="5"
-                                :name="'Eu mesmo'"
-                                :date="'13/08/2024 - 21:59'"
-                                :text="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur libero augue, at porttitor massa ultricies a. Donec eu mollis elit, vitae sagittis turpis. Cras pellentesque tristique tempor. Praesent ac elit nec urna malesuada ultricies nec non libero. Pellentesque placerat congue sagittis. In quam dui, lacinia eu quam et, cursus sollicitudin ante.'"
-                                />
-                                <CommentComponent 
-                                :stars="5"
-                                :name="'Eu mesmo'"
-                                :date="'13/08/2024 - 21:59'"
-                                :text="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur libero augue, at porttitor massa ultricies a. Donec eu mollis elit, vitae sagittis turpis. Cras pellentesque tristique tempor. Praesent ac elit nec urna malesuada ultricies nec non libero. Pellentesque placerat congue sagittis. In quam dui, lacinia eu quam et, cursus sollicitudin ante.'"
-                                />
-                                <CommentComponent 
+                        <b-col class="feedback-container p-0" :style="isMobile? 'height:60vh;' :''">
+                            <div id="comments-container" class="comments-container">
+                                <CommentComponent v-for="(item,idx) in [0,0,0,0,0]" :key="idx"
+                                :isMobile="isMobile" :style="idx==0? 'border:none;' :''"
                                 :stars="5"
                                 :name="'Eu mesmo'"
                                 :date="'13/08/2024 - 21:59'"
@@ -52,8 +23,8 @@
                                 />
                             </div>
 
-                            <b-row class="input-bar px-5 py-3">
-                                <b-col align-self="center">
+                            <b-row class="input-bar py-3" cols="1" :class="isMobile ? 'px-3' : 'px-5'">
+                                <b-col align-self="center" style="width:100%;">
                                     <b-row>
                                         <b-form-textarea
                                         id="inputComment"
@@ -72,19 +43,23 @@
                                         </b-form-textarea>
                                     </b-row>
                                 </b-col>
-                                <b-col cols="4" align-self="center">
-                                    <b-form-rating
-                                    id="inputRating"
-                                    name="inputRating"
-                                    class="rating-input"
-                                    v-model="stars"
-                                    ></b-form-rating>
-                                </b-col>
-                                <b-col cols="1" align-self="center">
-                                    <b-row>
-                                        <b-button variant="link" class="p-0" style="color:#ccc !important; font-size:40px;">
-                                            <b-icon icon="play"></b-icon>
-                                        </b-button>
+                                <b-col>
+                                    <b-row align-h="between">
+                                        <b-col align-self="center" style="max-width: 200px;">
+                                            <b-form-rating 
+                                            id="inputRating"
+                                            name="inputRating"
+                                            class="rating-input"
+                                            v-model="stars"
+                                            ></b-form-rating>
+                                        </b-col>
+                                        <b-col align-self="center" style="max-width: 100px;">
+                                            <b-row>
+                                                <b-button variant="link" class="p-0" style="color:#ccc !important; font-size:40px;">
+                                                    <b-icon icon="play"></b-icon>
+                                                </b-button>
+                                            </b-row>
+                                        </b-col>
                                     </b-row>
                                 </b-col>
                             </b-row>
@@ -108,14 +83,14 @@ export default {
             loading: false,
             comment: '',
             stars: 0,
-            isMobile: false,
+            isMobile: window.innerWidth < 720,
         }
     },
     created(){
-        function reportWindowSize() {
-            this.isMobile = window.innerWidth < 900;
-            console.log(this.isMobile)
-        } window.onresize = reportWindowSize;
+        window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
+    },
+    mounted(){
+        this.commentsContainerScrollBottom();
     },
     methods:{
         async feedback(){
@@ -127,6 +102,10 @@ export default {
             }
             finally { this.loading = false; }
         },
+        commentsContainerScrollBottom() {
+            const container = document.getElementById('comments-container');
+            if (container) container.scrollTop = container.scrollHeight;
+        }
     },
 }
 </script>
@@ -156,13 +135,14 @@ export default {
 
 .comments-container{
     border-radius: 40px;
-    overflow: auto;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .input-bar{
     background-color: #353535;
-    min-height: 100px;
-    height:fit-content;
+    /* min-height: 100px; */
+    /* height:fit-content; */
     width:100%;
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;

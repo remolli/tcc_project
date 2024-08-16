@@ -37,5 +37,7 @@ export default {
 #recover{
     height:100%;
     width:100%;
+    background-color: #F1FFFA;
+    padding:20px;
 }
 </style>

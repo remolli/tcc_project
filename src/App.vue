@@ -1,6 +1,8 @@
 <template>
-  <div id="app" translate="no">
-    <nav class="p-0" style="z-index:10; position:fixed; width:100%; background:white; border-bottom:2px solid #e1e1e3; box-shadow: 0px 5px 20px #00000020">
+  <div id="app" translate="no" style="max-width:100%;">
+    
+    <NavbarComponent/>
+    <!-- <nav class="p-0" style="z-index:10; position:sticky; top:0px; width:100%; background:white; border-bottom:2px solid #e1e1e3; box-shadow: 0px 5px 20px #00000020">
       <b-row align-v="center" style="min-height:40px;">
         <b-col>
           <router-link to="/">Home</router-link>
@@ -21,14 +23,18 @@
           <router-link to="/feedback">Feedback</router-link>
         </b-col>
       </b-row>
-    </nav>
+    </nav> -->
     <router-view/>
     <div id="google_translate_element"></div>
   </div>
 </template>
 
 <script>
+import NavbarComponent from './components/NavbarComponent.vue';
 export default {
+  components:{
+    NavbarComponent,
+  },
   mounted(){
     this.translateConfigs();
     setTimeout(()=>{

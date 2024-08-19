@@ -23,7 +23,7 @@
       </b-row>
     </nav>
     <router-view/>
-    <div id="google_translate_element" class="p-2"></div>
+    <div id="google_translate_element"></div>
   </div>
 </template>
 
@@ -50,6 +50,7 @@ export default {
       var select = document.querySelector('select.goog-te-combo');
       if (select) {
         select.value = 'pt';
+        select.id = 'google-translate-widget';
         select.dispatchEvent(new Event('change'));
       }
     },

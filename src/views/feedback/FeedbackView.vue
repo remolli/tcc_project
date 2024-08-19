@@ -23,10 +23,27 @@
                                 />
                             </div>
 
-                            <b-row class="input-bar py-3" cols="1" :class="isMobile ? 'px-3' : 'px-5'">
+                            <b-row class="input-bar py-3" cols="1" :class="isMobile ? 'px-3' : 'px-4 pb-4'">
                                 <b-col align-self="center" style="width:100%;">
                                     <b-row>
-                                        <b-form-textarea
+                                        <b-form-group label="Comentário" label-for="inputComment" label-align="start">
+                                            <b-form-textarea
+                                            id="inputComment"
+                                            name="inputComment"
+                                            type="text"
+                                            :maxlength="225"
+                                            class="px-3 py-2 textarea-input"
+                                            placeholder="Digite aqui seu comentário..."
+                                            v-model="comment"
+                                            :disabled="loading"
+                                            rows="1"
+                                            max-rows="1"
+                                            no-resize
+                                            required
+                                            >
+                                            </b-form-textarea>
+                                        </b-form-group>
+                                        <!-- <b-form-textarea
                                         id="inputComment"
                                         name="inputComment"
                                         type="text"
@@ -40,7 +57,7 @@
                                         no-resize
                                         required
                                         >
-                                        </b-form-textarea>
+                                        </b-form-textarea> -->
                                     </b-row>
                                 </b-col>
                                 <b-col>
@@ -51,14 +68,16 @@
                                             name="inputRating"
                                             class="rating-input"
                                             v-model="stars"
+                                            :aria-required="true"
                                             ></b-form-rating>
                                         </b-col>
-                                        <b-col align-self="center" style="max-width: 100px;">
-                                            <b-row>
-                                                <b-button variant="link" class="p-0" style="color:#ccc !important; font-size:40px;">
-                                                    <b-icon icon="play"></b-icon>
-                                                </b-button>
-                                            </b-row>
+                                        <b-col align-self="center" style="max-width: 150px;">
+                                            <b-button class="w-100" type="submit" variant="success" style="border-radius:8px; padding:7px 0px; font-size:17px;">
+                                                Enviar
+                                            </b-button>
+                                            <!-- <b-button variant="link" class="p-0" style="color:#ccc !important; font-size:40px;">
+                                                <b-icon icon="play"></b-icon>
+                                            </b-button> -->
                                         </b-col>
                                     </b-row>
                                 </b-col>
@@ -148,22 +167,26 @@ export default {
     border-bottom-right-radius: 40px;
 }
 .textarea-input{
-    background-color: transparent;
-    color: #CCCCCC;
-    border: none;
-    font-size: 20px !important;
+    background-color: #e1e1e3;
+    color: #101010;
+    border: 2px solid #898989;
+    font-size: 18px !important;
     overflow-y: auto;
     height: 46px;
 }
 .textarea-input::placeholder{
-    background-color: transparent;
     border: none;
-    color: #AAAAAA !important;
-    font-size: 20px !important;
+    color: #606060 !important;
+    font-size: 18px !important;
+    opacity:1 !important;
 }
 .rating-input{
     background-color: #555555;
     color: yellow;
     border: none;
+}
+* /deep/ .form-group label {
+    color: #e1e1e3;
+    font-size: 18px;
 }
 </style>

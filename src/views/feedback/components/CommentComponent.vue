@@ -67,7 +67,7 @@ export default {
 .comment-date {
     font-size:16px;
     font-weight: 400;
-    color: #aaa;
+    color: #757575;
 }
 .comment-star {
     color: yellow;

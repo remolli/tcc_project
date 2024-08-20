@@ -2,7 +2,7 @@
     <div style="width:100%; max-width:2000px;" :style="isMobile? 'width:100vw;max-width:100vw;' :''">
         <b-row v-if="!reverse || isMobile" class="about-section mx-0"
         :cols="isMobile ? '1' : '2'"
-        :style="'background-color: '+backgroundColor+'; padding:20px;' + (isMobile ? 'width:100vw;height:100vh;' : '')"
+        :style="'background-color: '+backgroundColor+';' + (isMobile ? 'width:100vw;height:100vh; padding:50px 10px; padding-top:100px;' : 'padding:20px;')"
         align-v="center">
             <b-col>
                 <b-row align-h="center"><h1 class="about-title"> {{ title }} </h1></b-row>

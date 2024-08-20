@@ -79,7 +79,7 @@ export default {
 }
 .comment-text {
     text-align: start;
-    font-size:16px;
+    font-size:17px;
     font-weight: 400;
     color: #555555;
 }

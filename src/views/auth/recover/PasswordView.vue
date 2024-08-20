@@ -1,5 +1,5 @@
 <template>
-    <div id="newPassword">
+    <div id="newPassword" :style="isMobile ? 'padding-top:150px;' : ''">
         <b-form @submit.prevent="newPassword" style="width:100%;">
             <b-row align-h="center">
                 <b-col style="max-width:500px; width:100%;">
@@ -83,7 +83,11 @@ export default {
             confirmPassword: '',
             visibility: false,
             confirmVisibility: false,
+            isMobile: window.innerWidth<720,
         }
+    },
+    created(){
+        window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
     },
     computed:{
         isValidPassword(){

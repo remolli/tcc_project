@@ -1,5 +1,5 @@
 <template>
-    <div id="recover">
+    <div id="recover" style="padding-top:50px;">
         <b-form @submit.prevent="nextStep" style="width:100%;">
             <b-row align-h="center">
                 <b-col style="max-width:500px; width:100%;">

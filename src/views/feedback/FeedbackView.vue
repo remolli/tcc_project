@@ -3,24 +3,25 @@
         <b-form @submit.prevent="feedback" style="width:100%;">
             <b-row align-h="center" class="mx-0">
                 <b-col style="max-width:1000px; width:100%;">
-                    <b-row align-h="center">
+                    <!-- <b-row align-h="center">
                         <img class="logo-large" src="@/assets/logo.svg" alt="Logo Notícia para Todos">
-                    </b-row>
-                    <b-row class="pb-4 mb-2 mt-2">
-                        <span style="font-size:20px; font-weight:300;">
+                    </b-row> -->
+                    <b-row class="pb-4 mb-2 mt-5" :class="isMobile ? 'pt-5' : 'pt-4'">
+                        <span style="font-size:20px; font-weight:500;">
                             Deixe aqui seu feedback
                         </span>
                     </b-row>
                     <b-row>
-                        <b-col class="feedback-container p-0" :style="isMobile? 'height:60vh;' :''">
-                            <div id="comments-container" class="comments-container">
+                        <b-col class="feedback-container p-0" :style="isMobile? 'height:70vh;' :''">
+                            <div id="comments-container" class="comments-container w-100">
                                 <CommentComponent v-for="(item,idx) in [0,0,0,0,0]" :key="idx"
                                 :isMobile="isMobile" :style="idx==0? 'border:none;' :''"
                                 :stars="5"
                                 :name="'Eu mesmo'"
                                 :date="'13/08/2024 - 21:59'"
-                                :text="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur libero augue, at porttitor massa ultricies a. Donec eu mollis elit, vitae sagittis turpis. Cras pellentesque tristique tempor. Praesent ac elit nec urna malesuada ultricies nec non libero. Pellentesque placerat congue sagittis. In quam dui, lacinia eu quam et, cursus sollicitudin ante.'"
+                                :text="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur libero augue, at porttitor massa ultricies a. Donec eu mollis elit, vitae sagittis turpis. Cras pellentesque tristique tempor. Praesent ac elit nec urna.'"
                                 />
+                                <!-- :text="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur libero augue, at porttitor massa ultricies a. Donec eu mollis elit, vitae sagittis turpis. Cras pellentesque tristique tempor. Praesent ac elit nec urna malesuada ultricies nec non libero. Pellentesque placerat congue sagittis. In quam dui, lacinia eu quam et, cursus sollicitudin ante.'" -->
                             </div>
 
                             <b-row class="input-bar py-3" cols="1" :class="isMobile ? 'px-3' : 'px-4 pb-4'">
@@ -32,14 +33,15 @@
                                             name="inputComment"
                                             type="text"
                                             :maxlength="225"
-                                            class="px-3 py-2 textarea-input"
+                                            class="textarea-input"
                                             placeholder="Digite aqui seu comentário..."
                                             v-model="comment"
                                             :disabled="loading"
                                             rows="1"
-                                            max-rows="1"
+                                            max-rows="3"
                                             no-resize
                                             required
+                                            :style="comment ? '' : 'height: 46px !important;'"
                                             >
                                             </b-form-textarea>
                                         </b-form-group>
@@ -147,8 +149,7 @@ export default {
     align-items: center;
     background-color:white;
     border-radius:40px;
-    /* height: 350px; */
-    height: 60vh;
+    height: 70vh;
     box-shadow: 0px 0px 50px #00000015;
 }
 
@@ -171,8 +172,8 @@ export default {
     color: #101010;
     border: 2px solid #898989;
     font-size: 18px !important;
-    overflow-y: auto;
-    height: 46px;
+    overflow-y: auto !important;
+    padding:8px 10px !important;
 }
 .textarea-input::placeholder{
     border: none;

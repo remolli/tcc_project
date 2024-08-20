@@ -1,5 +1,5 @@
 <template>
-    <div id="security">
+    <div id="security" style="padding-top:50px;">
         <b-form @submit.prevent="security" style="width:100%;">
             <b-row align-h="center">
                 <b-col style="max-width:500px; width:100%;">

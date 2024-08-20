@@ -1,5 +1,5 @@
 <template>
-    <div id="about" class="d-flex" :style="isMobile? 'flex-direction:row; overflow-y:hidden;' :''">
+    <div id="about" class="d-flex" :style="isMobile? 'flex-direction:row; overflow-y:hidden;' :'margin-top:80px;'">
         <AboutSection :backgroundColor="'#BDE3CA'"
         :isMobile="isMobile"
         title="Sobre nós"

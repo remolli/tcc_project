@@ -1,5 +1,5 @@
 <template>
-    <div id="register">
+    <div id="register" :style="isMobile ? 'padding-top:150px;' : 'padding-top:60px;'">
         <b-form @submit.prevent="nextStep" style="width:100%;">
             <b-row align-h="center">
                 <b-col style="max-width:500px; width:100%;">
@@ -124,7 +124,11 @@ export default {
             confirmPassword: '',
             visibility: false,
             confirmVisibility: false,
+            isMobile: window.innerWidth < 720,
         }
+    },
+    created(){
+        window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
     },
     computed:{
         isValidUsername(){

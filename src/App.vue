@@ -135,8 +135,8 @@ nav a.router-link-exact-active {
 }
 
 .logo-large{
-  height: 90px;
-  width: 90px;
+  height: 70px;
+  width: 70px;
   object-fit: contain;
 }
 
@@ -148,6 +148,10 @@ label {
 }
 .form-control {
   padding: 20px 10px !important;
+}
+
+.btn-light{
+  border:2px solid #999 !important;
 }
 
 .eye-button{

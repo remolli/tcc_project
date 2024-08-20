@@ -138,6 +138,7 @@ nav a.router-link-exact-active {
   height: 70px;
   width: 70px;
   object-fit: contain;
+  padding: 0px !important;
 }
 
 label {

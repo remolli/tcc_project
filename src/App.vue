@@ -2,30 +2,11 @@
   <div id="app" translate="no" style="max-width:100%;">
     
     <NavbarComponent/>
-    <!-- <nav class="p-0" style="z-index:10; position:sticky; top:0px; width:100%; background:white; border-bottom:2px solid #e1e1e3; box-shadow: 0px 5px 20px #00000020">
-      <b-row align-v="center" style="min-height:40px;">
-        <b-col>
-          <router-link to="/">Home</router-link>
-        </b-col>
-        <b-col>
-          <router-link to="/sobre">Sobre</router-link>  
-        </b-col>
-        <b-col>
-          <router-link to="/login">Login</router-link>
-        </b-col>
-        <b-col>
-          <router-link to="/cadastro">Cadastro</router-link>
-        </b-col>
-        <b-col>
-          <router-link to="/recuperar">Recuperar senha</router-link>
-        </b-col>
-        <b-col>
-          <router-link to="/feedback">Feedback</router-link>
-        </b-col>
-      </b-row>
-    </nav> -->
+
     <router-view/>
+
     <div id="google_translate_element"></div>
+    
   </div>
 </template>
 
@@ -110,6 +91,16 @@ export default {
   font-family: "Inter", sans-serif !important;
 }
 
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+output:focus-visible,
+a:focus-visible
+{
+  box-shadow: 0px 0px 0px 5px #4c82ff !important;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -161,12 +152,13 @@ label {
     border-color: #E1E1E3;
     background-color: white !important;
 }
+.eye-button:focus-visible,
 .eye-button:hover{
     background-color: #F1F1F3 !important;
     color:black !important;
 }
 .eye-button:active{
-    background-color: #E1E1E3 !important;
+  background-color: #E1E1E3 !important;
     color:black !important;
 }
 
@@ -180,10 +172,4 @@ label {
   opacity: .5 !important;
   font-size: 14px;
 }
-
-/* .fill-success-button{
-  
-} */
-/* .outline-success-button */
-
 </style>

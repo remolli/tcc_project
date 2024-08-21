@@ -1,7 +1,7 @@
 <template>
     <div class="navbar-parent">
         <b-row class="m-0 w-100" align-h="between" align-v="center">
-            <b-button variant="link" style="width:max-content; height:max-content;"
+            <b-button variant="link" class="logo-button"
             @click="$router.push({name: 'home'})">
                 <img src="@/assets/logo.svg" alt="Logo Notícias para Todos" 
                 style="width:50px;height:50px; object-fit:contain !important; padding:0px;">
@@ -13,24 +13,32 @@
             <b-sidebar id="sidebar" title="Notícia para todos" shadow backdrop right>
                 <div class="d-flex flex-column align-items-start p-3 px-4">
                     <b-button @click="$router.push({name: 'home'})" variant="link" class="nav-mobile-link w-100 py-2"
+                    :class="currentRoute=='home'? 'nav-desktop-button-active' :''"
                     > Home </b-button>
                     <b-button @click="$router.push({name: 'about'})" variant="link" class="nav-mobile-link w-100 py-2"
-                    > Sobre </b-button>
+                    :class="currentRoute=='about'? 'nav-desktop-button-active' :''"
+                    > Sobre nós </b-button>
                     <b-button @click="$router.push({name: 'feedback'})" variant="link" class="nav-mobile-link w-100 py-2"
+                    :class="currentRoute=='feedback'? 'nav-desktop-button-active' :''"
                     > Feedback </b-button>
                     <b-button @click="$router.push({name: 'login'})" variant="link" class="nav-mobile-link w-100 py-2"
+                    :class="currentRoute=='login'? 'nav-desktop-button-active' : ''"
                     > Login </b-button>
                     <b-button @click="$router.push({name: 'register'})" variant="link" class="nav-mobile-link w-100 py-2"
-                    > Registrar </b-button>
+                    :class="currentRoute=='register'? 'nav-desktop-button-active' : ''"
+                    > Cadastre-se </b-button>
                 </div>
             </b-sidebar>
 
-            <div v-if="!isMobile" class="d-flex justify-content-between p-0" style="width:70%; max-width:500px;">
+            <div v-if="!isMobile" class="d-flex justify-content-between p-0" style="width:80%; max-width:550px;">
                 <b-button @click="$router.push({name: 'home'})" variant="link" class="nav-desktop-link"
+                :class="currentRoute=='home'? 'nav-desktop-link-active' :''"
                 > Home </b-button>
                 <b-button @click="$router.push({name: 'about'})" variant="link" class="nav-desktop-link"
-                > Sobre </b-button>
+                :class="currentRoute=='about'? 'nav-desktop-link-active' :''"
+                > Sobre nós </b-button>
                 <b-button @click="$router.push({name: 'feedback'})" variant="link" class="nav-desktop-link"
+                :class="currentRoute=='feedback'? 'nav-desktop-link-active' :''"
                 > Feedback </b-button>
 
                 <b-button v-if="isLogged" class="py-1">
@@ -39,13 +47,13 @@
                 
                 <div class="d-flex p-0 align-items-center">
                     <b-button v-if="!isLogged" variant="light" class="py-2" @click="$router.push({name: 'login'})"
-                    style="max-height:45px;">
+                    :class="currentRoute=='login'? 'nav-desktop-button-active' : ''" style="max-height:45px;">
                         Login
                     </b-button>
                     <div style="width:10px;"></div>
                     <b-button v-if="!isLogged" variant="light" class="py-2" @click="$router.push({name: 'register'})"
-                    style="max-height:45px;">
-                        Registrar
+                    :class="currentRoute=='register'? 'nav-desktop-button-active' : ''" style="max-height:45px;">
+                        Cadastre-se
                     </b-button>
                 </div>
             </div>
@@ -60,9 +68,13 @@ export default {
         return {
             isLogged: false,
             isMobile: window.innerWidth < 720,
+            currentRoute: null,
         }
     },
     created(){
+        setInterval(()=>{
+            if(this.currentRoute != this.$route.name) this.currentRoute = this.$route.name; 
+        }, 250)
         window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
     },
 }
@@ -70,8 +82,6 @@ export default {
 
 <style scoped>
 .navbar-parent{
-    /* background-color: #3ead86; */
-    /* background-color: #2c5a45; */
     background-color: #BAF1AB;
     display: flex;
     align-items: center;
@@ -84,6 +94,11 @@ export default {
     box-shadow: 0px 10px 20px #15202530;
     border-bottom: 4px solid #a5d398;
 }
+.logo-button{
+    width:max-content;
+    height:max-content;
+}
+.logo-button:hover{ background-color: #F1F1F3; }
 .nav-desktop-link{
     color: #555;
     text-decoration: none;
@@ -98,4 +113,22 @@ export default {
 .nav-mobile-link:hover, .nav-desktop-link:hover{ text-decoration: underline; }
 .nav-mobile-link:hover{ color: black; background-color: #BAF1AB; }
 .nav-desktop-link:hover{ color: black; }
+.nav-mobile-link-active{
+    color: black !important;
+    background-color: #D6FFE7 !important;
+    border: 2px solid #2E9A40 !important;
+}
+.nav-desktop-link-active{
+    color: black !important;
+    font-weight:500 !important;
+    border-bottom: 2px solid #2E9A40 !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+.nav-desktop-button-active{
+    color: black !important;
+    font-weight:500 !important;
+    border: 2px solid #2E9A40 !important;
+    background-color: #D6FFE7 !important;
+}
 </style>

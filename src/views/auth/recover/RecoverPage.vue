@@ -1,7 +1,7 @@
 <template>
     <div id="recover">
-        <RecoverView v-show="step==0" @nextStep="step++"/>
-        <PasswordView v-show="step==1" @backStep="step--"/>
+        <RecoverView v-if="step==0" @nextStep="step++"/>
+        <PasswordView v-if="step==1" @backStep="step--"/>
     </div>
 </template>
 

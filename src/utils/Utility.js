@@ -10,13 +10,13 @@ class Utility {
         // }
         this.errorSnackBar('Ops! Ocorreu um erro, Tente novamente');
     }
-    static successSnackBar(message){
+    static successSnackBar(message, timer){
         Swal.fire({
             position: "bottom-right",
-            title: "<div style='display:flex; align-items:center; color:white; font-size:17px; font-weight:400;' class='font-quicksand'>" + message + "</div>",
+            title: "<div translate=\"no\" style='display:flex; align-items:center; color:white; font-size:17px; font-weight:400;' class='font-quicksand'>" + message + "</div>",
             icon: null,
             showConfirmButton: false,
-            timer: 4000,
+            timer: timer,
             background: '#19B377',
             customClass: {
                 popup: 'custom-swal-popup',
@@ -25,13 +25,13 @@ class Utility {
             backdrop: false,
         });
     }
-    static errorSnackBar(message){
+    static errorSnackBar(message, timer){
         Swal.fire({
             position: "bottom-right",
-            title: "<div style='display:flex; align-items:center; color:white; font-size:17px; font-weight:400;' class='font-quicksand'>" + message + "</div>",
+            title: "<div translate=\"no\" style='display:flex; align-items:center; color:white; font-size:17px; font-weight:400;' class='font-quicksand'>" + message + "</div>",
             icon: null,
             showConfirmButton: false,
-            timer: 4000,
+            timer: timer,
             background: '#F4483B',
             customClass: {
                 popup: 'custom-swal-popup',

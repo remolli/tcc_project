@@ -7,19 +7,21 @@
                         <img class="logo-large" src="@/assets/logo.svg" alt="Logo Notícia para Todos">
                     </b-row>
                     <b-row class="mx-0 pb-4 mb-2 mt-2">
-                        <span style="font-size:20px; font-weight:300;">
+                        <h1 style="font-size:20px; font-weight:300;">
                             Entrar em Notícia para Todos
-                        </span>
+                        </h1>
                     </b-row>
                     <b-row class="mx-0">
                         <b-form-group label="E-mail" label-for="inputEmail" label-align="start">
                             <b-form-input
                             id="inputEmail"
                             name="inputEmail"
+                            ref="inputEmail"
                             type="email"
                             placeholder="Digite aqui seu e-mail"
                             v-model="email"
                             :state="isValidEmail(email)"
+                            :aria-invalid="email ? !isValidEmail(email) : false"
                             :disabled="loading"
                             required
                             >
@@ -32,16 +34,20 @@
                                 <b-form-input
                                 id="inputPassword"
                                 name="inputPassword"
+                                ref="inputPassword"
                                 :type="visibility ? 'text' : 'password'"
                                 placeholder="Digite aqui sua senha"
                                 v-model="password"
                                 :state="isValidPassword(password)"
+                                :aria-invalid="password ? !isValidPassword(password) : false"
+                                aria-errormessage="passwordError"
                                 :disabled="loading"
                                 required
                                 >
                                 </b-form-input>
                                 <b-input-group-append>
-                                    <b-button @click="visibility = !visibility" variant="outline-secondary" class="eye-button">
+                                    <b-button @click="visibility = !visibility" variant="outline-secondary" class="eye-button"
+                                    :aria-label="visibility ? 'Esconder senha' : 'Visualizar senha'">
                                         <b-icon :icon="visibility ? 'eye' : 'eye-slash'"></b-icon>
                                     </b-button>
                                 </b-input-group-append>
@@ -54,9 +60,9 @@
                         </b-col>
                         <div style="width:10px;"></div>
                         <b-col class="mt-2 p-0 d-flex" style="min-width:max-content; max-width:max-content;">
-                            <b-link to="/recuperar" style="max-width:fit-content; padding-right:0px; padding-left:0px;">
+                            <b-button variant="link" @click="$router.push({name: 'recover'})" style="max-width:fit-content; padding:0px;">
                                 Esqueceu sua senha?
-                            </b-link>
+                            </b-button>
                         </b-col>
                     </b-row>
                     <b-row class="mx-3" :class="isMobile ? 'pt-3' : 'pt-4'">
@@ -72,6 +78,7 @@
 </template>
 
 <script>
+import Utility from '@/utils/Utility';
 export default {
     name: 'LoginView',
     data(){
@@ -86,6 +93,9 @@ export default {
     created(){
         window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
     },
+    mounted(){
+        this.$refs.inputEmail.focus();
+    },
     methods:{
         isValidEmail(value){
             if(!value) return null;
@@ -96,12 +106,27 @@ export default {
             if(!value) return null;
             return value.length >= 6;
         },
+        validateForm(){
+            if(!this.isValidEmail(this.email)){
+                this.$refs.inputEmail.focus();
+                return false;
+            }
+            else if(!this.isValidPassword(this.password)){
+                this.$refs.inputPassword.focus();
+                return false;
+            }
+            else return true;
+        },
         async login(){
+            if(!this.validateForm()) return;
+
             try{
                 this.loading = true;
+                Utility.successSnackBar("Login realizado com sucesso")
             }
             catch(error){
                 console.log(error);
+                Utility.errorSnackBar("Ocorreu um erro ao realizar o login. Tente novamente!")
             }
             finally { this.loading = false; }
         },

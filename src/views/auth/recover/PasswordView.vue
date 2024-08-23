@@ -7,31 +7,35 @@
                         <img class="logo-large" src="@/assets/logo.svg" alt="Logo Notícia para Todos">
                     </b-row>
                     <b-row class="pb-4 mb-2 mt-2">
-                        <span style="font-size:20px; font-weight:300;">
+                        <h1 style="font-size:20px; font-weight:300;">
                             Crie sua nova senha
-                        </span>
+                        </h1>
                     </b-row>
                     <b-row>
-                        <b-form-group label="Senha" label-for="inputPassword" label-align="start">
+                        <b-form-group label="Nova Senha" label-for="inputPassword" label-align="start">
                             <b-input-group>
                                 <b-form-input
                                 id="inputPassword"
                                 name="inputPassword"
-                                placeholder="Digite aqui sua senha"
+                                ref="inputPassword"
+                                placeholder="Digite aqui sua nova senha"
                                 :type="visibility ? 'text' : 'password'"
                                 v-model="password"
                                 :state="isValidPassword"
+                                :aria-invalid="!isValidPassword"
+                                aria-errormessage="errorPassword"
                                 :disabled="loading"
                                 required
                                 >
                                 </b-form-input>
                                 <b-input-group-append>
-                                    <b-button @click="visibility = !visibility" variant="outline-secondary" class="eye-button">
+                                    <b-button @click="visibility = !visibility" variant="outline-secondary" class="eye-button"
+                                    :aria-label="visibility ? 'Esconder senha' : 'Visualizar senha'">
                                         <b-icon :icon="visibility ? 'eye' : 'eye-slash'"></b-icon>
                                     </b-button>
                                 </b-input-group-append>
                             </b-input-group>
-                            <b-form-invalid-feedback :state="isValidPassword" style="text-align:start;">
+                            <b-form-invalid-feedback id="errorPassword" :state="isValidPassword" style="text-align:start;">
                                 Pelo menos 6 caracteres.
                             </b-form-invalid-feedback>
                         </b-form-group>
@@ -42,22 +46,26 @@
                                 <b-form-input
                                 id="inputConfirm"
                                 name="inputConfirm"
+                                ref="inputConfirm"
                                 placeholder="Confirme sua senha"
                                 :type="confirmVisibility ? 'text' : 'password'"
                                 v-model="confirmPassword"
                                 :state="isValidConfirmPassword"
+                                :aria-invalid="!isValidConfirmPassword"
+                                aria-errormessage="errorConfirm"
                                 :disabled="loading"
                                 required
                                 >
                                 </b-form-input>
                                 <b-input-group-append>
-                                    <b-button @click="confirmVisibility = !confirmVisibility" variant="outline-secondary" class="eye-button">
+                                    <b-button @click="confirmVisibility = !confirmVisibility" variant="outline-secondary" class="eye-button"
+                                    :aria-label="confirmVisibility ? 'Esconder confirmação de senha' : 'Visualizar confirmação de senha'">
                                         <b-icon :icon="confirmVisibility ? 'eye' : 'eye-slash'"></b-icon>
                                     </b-button>
                                 </b-input-group-append>
                             </b-input-group>
-                            <b-form-invalid-feedback :state="isValidConfirmPassword" style="text-align:start;">
-                                
+                            <b-form-invalid-feedback id="errorConfirm" :state="isValidConfirmPassword" style="text-align:start;">
+                                As senhas não coincidem
                             </b-form-invalid-feedback>
                         </b-form-group>
                     </b-row>
@@ -74,6 +82,7 @@
 </template>
 
 <script>
+import Utility from '@/utils/Utility';
 export default {
     name: 'PasswordView',
     data(){
@@ -89,6 +98,9 @@ export default {
     created(){
         window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
     },
+    mounted(){
+        this.$refs.inputPassword.focus();
+    },
     computed:{
         isValidPassword(){
             if(!this.password) return null;
@@ -100,12 +112,27 @@ export default {
         },
     },
     methods:{
+        validateForm(){
+            if(!this.isValidPassword){
+                this.$refs.inputPassword.focus();
+                return false;
+            }
+            else if(!this.isValidConfirmPassword){
+                this.$refs.inputConfirm.focus();
+                return false;
+            }
+            else return true;
+        },
         async newPassword(){
+            if(!this.validateForm()) return;
+
             try{
                 this.loading = true;
+                Utility.successSnackBar("Nova senha atualizada com sucesso!");
             }
             catch(error){
                 console.log(error);
+                Utility.errorSnackBar("Ocorreu um erro ao atualizar sua senha. Tente novamente!");
             }
             finally { this.loading = false; }
         },

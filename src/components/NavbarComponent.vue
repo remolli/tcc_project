@@ -1,57 +1,63 @@
 <template>
     <div class="navbar-parent">
         <b-row class="m-0 w-100" align-h="between" align-v="center">
-            <b-button variant="link" class="logo-button"
+            <b-button role="link" variant="link" class="logo-button"
+            title="Alternativa para página inicial"
+            aria-label="Alternativa para página inicial"
             @click="$router.push({name: 'home'})">
-                <img src="@/assets/logo.svg" alt="Logo Notícias para Todos" 
+                <img src="@/assets/logo.svg" alt="Logo Notícias para Todos"
                 style="width:50px;height:50px; object-fit:contain !important; padding:0px;">
             </b-button>
 
-            <b-button v-if="isMobile" v-b-toggle.sidebar variant="light" class="py-1" style="font-size:20px; padding:4px 10px; max-width:max-content; max-height:45px;">
+            <b-button v-if="isMobile" v-b-toggle.sidebar variant="light" class="py-1" 
+            aria-label="Lista navegação"
+            style="font-size:20px; padding:4px 10px; max-width:max-content; max-height:45px;">
                 <b-icon icon="list"></b-icon>
             </b-button>
             <b-sidebar id="sidebar" title="Notícia para todos" shadow backdrop right>
                 <div class="d-flex flex-column align-items-start p-3 px-4">
-                    <b-button @click="$router.push({name: 'home'})" variant="link" class="nav-mobile-link w-100 py-2"
+                    <b-button role="link" @click="$router.push({name: 'home'})" variant="link" class="nav-mobile-link w-100 py-2"
                     :class="currentRoute=='home'? 'nav-desktop-button-active' :''"
                     > Home </b-button>
-                    <b-button @click="$router.push({name: 'about'})" variant="link" class="nav-mobile-link w-100 py-2"
+                    <b-button role="link" @click="$router.push({name: 'about'})" variant="link" class="nav-mobile-link w-100 py-2"
                     :class="currentRoute=='about'? 'nav-desktop-button-active' :''"
                     > Sobre nós </b-button>
-                    <b-button @click="$router.push({name: 'feedback'})" variant="link" class="nav-mobile-link w-100 py-2"
+                    <b-button role="link" @click="$router.push({name: 'feedback'})" variant="link" class="nav-mobile-link w-100 py-2"
                     :class="currentRoute=='feedback'? 'nav-desktop-button-active' :''"
                     > Feedback </b-button>
-                    <b-button @click="$router.push({name: 'login'})" variant="link" class="nav-mobile-link w-100 py-2"
+                    <b-button role="link" @click="$router.push({name: 'login'})" variant="link" class="nav-mobile-link w-100 py-2"
                     :class="currentRoute=='login'? 'nav-desktop-button-active' : ''"
                     > Login </b-button>
-                    <b-button @click="$router.push({name: 'register'})" variant="link" class="nav-mobile-link w-100 py-2"
+                    <b-button role="link" @click="$router.push({name: 'register'})" variant="link" class="nav-mobile-link w-100 py-2"
                     :class="currentRoute=='register'? 'nav-desktop-button-active' : ''"
                     > Cadastre-se </b-button>
                 </div>
             </b-sidebar>
 
             <div v-if="!isMobile" class="d-flex justify-content-between p-0" style="width:80%; max-width:550px;">
-                <b-button @click="$router.push({name: 'home'})" variant="link" class="nav-desktop-link"
+                <b-button role="link" @click="$router.push({name: 'home'})" variant="link" class="nav-desktop-link"
                 :class="currentRoute=='home'? 'nav-desktop-link-active' :''"
                 > Home </b-button>
-                <b-button @click="$router.push({name: 'about'})" variant="link" class="nav-desktop-link"
+                <b-button role="link" @click="$router.push({name: 'about'})" variant="link" class="nav-desktop-link"
                 :class="currentRoute=='about'? 'nav-desktop-link-active' :''"
                 > Sobre nós </b-button>
-                <b-button @click="$router.push({name: 'feedback'})" variant="link" class="nav-desktop-link"
+                <b-button role="link" @click="$router.push({name: 'feedback'})" variant="link" class="nav-desktop-link"
                 :class="currentRoute=='feedback'? 'nav-desktop-link-active' :''"
                 > Feedback </b-button>
 
-                <b-button v-if="isLogged" class="py-1">
+                <b-button v-if="isLogged" 
+                aria-label="Perfil"
+                class="py-1">
                     <b-icon icon="person"></b-icon>
                 </b-button>
                 
                 <div class="d-flex p-0 align-items-center">
-                    <b-button v-if="!isLogged" variant="light" class="py-2" @click="$router.push({name: 'login'})"
+                    <b-button role="link" v-if="!isLogged" variant="light" class="py-2" @click="$router.push({name: 'login'})"
                     :class="currentRoute=='login'? 'nav-desktop-button-active' : ''" style="max-height:45px;">
                         Login
                     </b-button>
                     <div style="width:10px;"></div>
-                    <b-button v-if="!isLogged" variant="light" class="py-2" @click="$router.push({name: 'register'})"
+                    <b-button role="link" v-if="!isLogged" variant="light" class="py-2" @click="$router.push({name: 'register'})"
                     :class="currentRoute=='register'? 'nav-desktop-button-active' : ''" style="max-height:45px;">
                         Cadastre-se
                     </b-button>
@@ -102,6 +108,7 @@ export default {
 .nav-desktop-link{
     color: #555;
     text-decoration: none;
+    border-radius: 6px;
 }
 .nav-mobile-link{
     color: #454545;
@@ -109,6 +116,7 @@ export default {
     background-color: #F1F1F3;
     border: 2px solid #A1A1A3 !important;
     margin-top: 10px;
+    border-radius: 6px;
 }
 .nav-mobile-link:hover, .nav-desktop-link:hover{ text-decoration: underline; }
 .nav-mobile-link:hover{ color: black; background-color: #BAF1AB; }

@@ -7,23 +7,29 @@
                         <img class="logo-large" src="@/assets/logo.svg" alt="Logo Notícia para Todos">
                     </b-row>
                     <b-row class="pb-4 mb-2 mt-2">
-                        <span style="font-size:20px; font-weight:300;">
+                        <h1 style="font-size:20px; font-weight:300;">
                             Cadastre-se em Notícia para Todos
-                        </span>
+                        </h1>
                     </b-row>
                     <b-row>
                         <b-form-group label="Nome de usuário" label-for="inputUsername" label-align="start">
                             <b-form-input
                             id="inputUsername"
                             name="inputUsername"
+                            ref="inputUsername"
                             type="text"
                             placeholder="Digite aqui seu nome de usuário"
                             v-model="username"
                             :state="isValidUsername"
+                            :aria-invalid="username ? !isValidUsername : null"
+                            aria-errormessage="errorUsername"
                             :disabled="loading"
                             required
                             >
                             </b-form-input>
+                            <b-form-invalid-feedback id="errorUsername" :state="isValidUsername" style="text-align:start;">
+                                Pelo menos 3 caracteres.
+                            </b-form-invalid-feedback>
                         </b-form-group>
                     </b-row>
                     <b-row>
@@ -31,15 +37,18 @@
                             <b-form-input
                             id="inputEmail"
                             name="inputEmail"
+                            ref="inputEmail"
                             type="email"
                             placeholder="Digite aqui seu e-mail"
                             v-model="email"
                             :state="isValidEmail"
+                            :aria-invalid="email ? !isValidEmail : null"
+                            aria-errormessage="errorEmail"
                             :disabled="loading"
                             required
                             >
                             </b-form-input>
-                            <b-form-invalid-feedback :state="isValidEmail" style="text-align:start;">
+                            <b-form-invalid-feedback id="errorEmail" :state="isValidEmail" style="text-align:start;">
                                 E-mail inválido.
                             </b-form-invalid-feedback>
                         </b-form-group>
@@ -50,21 +59,25 @@
                                 <b-form-input
                                 id="inputPassword"
                                 name="inputPassword"
+                                ref="inputPassword"
                                 placeholder="Digite aqui sua senha"
                                 :type="visibility ? 'text' : 'password'"
                                 v-model="password"
                                 :state="isValidPassword"
+                                :aria-invalid="password ? !isValidPassword : null"
+                                aria-errormessage="errorPassword"
                                 :disabled="loading"
                                 required
                                 >
                                 </b-form-input>
                                 <b-input-group-append>
-                                    <b-button @click="visibility = !visibility" variant="outline-secondary" class="eye-button">
+                                    <b-button @click="visibility = !visibility" variant="outline-secondary" class="eye-button"
+                                    :aria-label="visibility ? 'Esconder senha' : 'Visualizar senha'">
                                         <b-icon :icon="visibility ? 'eye' : 'eye-slash'"></b-icon>
                                     </b-button>
                                 </b-input-group-append>
                             </b-input-group>
-                            <b-form-invalid-feedback :state="isValidPassword" style="text-align:start;">
+                            <b-form-invalid-feedback id="errorPassword" :state="isValidPassword" style="text-align:start;">
                                 Pelo menos 6 caracteres.
                             </b-form-invalid-feedback>
                         </b-form-group>
@@ -75,22 +88,26 @@
                                 <b-form-input
                                 id="inputConfirm"
                                 name="inputConfirm"
+                                ref="inputConfirm"
                                 placeholder="Confirme sua senha"
                                 :type="confirmVisibility ? 'text' : 'password'"
                                 v-model="confirmPassword"
                                 :state="isValidConfirmPassword"
+                                :aria-invalid="confirmPassword ? !isValidConfirmPassword : null"
+                                aria-errormessage="errorConfirmPassword"
                                 :disabled="loading"
                                 required
                                 >
                                 </b-form-input>
                                 <b-input-group-append>
-                                    <b-button @click="confirmVisibility = !confirmVisibility" variant="outline-secondary" class="eye-button">
+                                    <b-button @click="confirmVisibility = !confirmVisibility" variant="outline-secondary" class="eye-button"
+                                    :aria-label="confirmVisibility ? 'Esconder confirmação de senha' : 'Visualizar confirmação de senha'">
                                         <b-icon :icon="confirmVisibility ? 'eye' : 'eye-slash'"></b-icon>
                                     </b-button>
                                 </b-input-group-append>
                             </b-input-group>
-                            <b-form-invalid-feedback :state="isValidConfirmPassword" style="text-align:start;">
-                                
+                            <b-form-invalid-feedback id="errorConfirmPassword" :state="isValidConfirmPassword" style="text-align:start;">
+                                As senhas não coincidem.
                             </b-form-invalid-feedback>
                         </b-form-group>
                     </b-row>
@@ -130,6 +147,9 @@ export default {
     created(){
         window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
     },
+    mounted(){
+        this.$refs.inputUsername.focus();
+    },
     computed:{
         isValidUsername(){
             if(!this.username) return null;
@@ -150,16 +170,28 @@ export default {
         },
     },
     methods:{
-        async register(){
-            try{
-                this.loading = true;
+        validateForm(){
+            if(!this.isValidUsername){
+                this.$refs.inputUsername.focus();
+                return false;
             }
-            catch(error){
-                console.log(error);
+            else if(!this.isValidEmail){
+                this.$refs.inputEmail.focus();
+                return false;
             }
-            finally { this.loading = false; }
+            else if(!this.isValidPassword){
+                this.$refs.inputPassword.focus();
+                return false;
+            }
+            else if(!this.isValidConfirmPassword){
+                this.$refs.inputConfirm.focus();
+                return false;
+            }
+            else return true;
         },
         nextStep(){
+            if(!this.validateForm()) return;
+
             const modal = {
                 username: this.username,
                 email: this.email,

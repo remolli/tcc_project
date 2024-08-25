@@ -93,6 +93,7 @@
 </template>
 
 <script>
+import Utility from '@/utils/Utility';
 import CommentComponent from './components/CommentComponent.vue';
 export default {
     name: 'FeedbackView',
@@ -111,15 +112,17 @@ export default {
         window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
     },
     mounted(){
-        this.commentsContainerScrollBottom();
+        // this.commentsContainerScrollBottom();
     },
     methods:{
         async feedback(){
             try{
                 this.loading = true;
+                Utility.successSnackBar("Comentário enviado com sucesso!")
             }
             catch(error){
                 console.log(error);
+                Utility.errorSnackBar("Ocorreu um erro ao enviar o comentário. Tente novamente!")
             }
             finally { this.loading = false; }
         },

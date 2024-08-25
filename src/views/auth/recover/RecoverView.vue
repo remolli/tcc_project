@@ -21,7 +21,7 @@
                             placeholder="Digite aqui seu e-mail"
                             v-model="email"
                             :state="isValidEmail"
-                            :aria-invalid="!isValidEmail"
+                            :aria-invalid="email ? !isValidEmail : null"
                             aria-errormessage="errorEmail"
                             :disabled="loading"
                             required

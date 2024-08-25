@@ -22,7 +22,7 @@
                                 :type="visibility ? 'text' : 'password'"
                                 v-model="password"
                                 :state="isValidPassword"
-                                :aria-invalid="!isValidPassword"
+                                :aria-invalid="password ? !isValidPassword : null"
                                 aria-errormessage="errorPassword"
                                 :disabled="loading"
                                 required
@@ -51,7 +51,7 @@
                                 :type="confirmVisibility ? 'text' : 'password'"
                                 v-model="confirmPassword"
                                 :state="isValidConfirmPassword"
-                                :aria-invalid="!isValidConfirmPassword"
+                                :aria-invalid="confirmPassword ? !isValidConfirmPassword : null"
                                 aria-errormessage="errorConfirm"
                                 :disabled="loading"
                                 required

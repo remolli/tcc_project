@@ -132,6 +132,9 @@
 <script>
 export default {
     name: 'SecurityView',
+    props: {
+        user: Object
+    },
     data(){
         return {
             loading: false,
@@ -145,6 +148,10 @@ export default {
         }
     },
     created(){
+        this.username = this.user?.username;
+        this.email = this.user?.email;
+        this.password = this.user?.password;
+        this.confirmPassword = this.user?.password;
         window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
     },
     mounted(){

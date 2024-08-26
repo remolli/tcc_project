@@ -1,7 +1,7 @@
 <template>
     <div id="register">
-        <RegisterView v-if="step==0" @nextStep="step++"/>
-        <SecurityView v-if="step==1" @backStep="step--"/>
+        <RegisterView v-if="step==0" @nextStep="nextStep" :user="user"/>
+        <SecurityView v-if="step==1" @backStep="backStep" :answers="answers"/>
     </div>
 </template>
 
@@ -18,6 +18,7 @@ export default {
     data(){
         return {
             user: null,
+            answers: null,
             step: 0,
         }
     },
@@ -26,7 +27,8 @@ export default {
             this.user = user;
             this.step++
         },
-        backStep(){
+        backStep(answers){
+            this.answers = answers;
             this.step--;
         },
     }

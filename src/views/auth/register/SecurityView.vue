@@ -54,7 +54,7 @@
                         </b-form-group>
                     </b-row>
                     <b-row class="mx-0 mt-4">
-                        <b-button @click="$emit('backStep')" type="button" variant="success" style="border-radius:8px; padding:10px 0px; background-color:transparent; color:#198754;" :disabled="loading">
+                        <b-button @click="backStep" type="button" variant="success" style="border-radius:8px; padding:10px 0px; background-color:transparent; color:#198754;" :disabled="loading">
                             <span v-if="loading"><b-spinner small></b-spinner></span>
                             <span v-else>Voltar</span>
                         </b-button>
@@ -75,6 +75,9 @@
 import Utility from '@/utils/Utility';
 export default {
     name: 'RegisterView',
+    props:{
+        answers: Object
+    },
     data(){
         return {
             loading: false,
@@ -82,10 +85,21 @@ export default {
             second: '',
         }
     },
+    created(){
+        this.first = this.answers?.first;
+        this.second = this.answers?.second;
+    },
     mounted(){
         this.$refs.inputFirst.focus();
     },
     methods:{
+        backStep(){
+            var modal = {
+                first: this.first,
+                second: this.second
+            }
+            this.$emit('backStep', modal);
+        },
         validateForm(){
             if(!this.first.length>=3){
                 this.$refs.inputFirst.focus();

@@ -1,7 +1,7 @@
 <template>
-  <div id="app" translate="no" style="max-width:100%;">
+  <div id="app" translate="no">
     
-    <NavbarComponent/>
+    <NavbarComponent style="width:100% !important;"/>
 
     <router-view/>
 
@@ -107,8 +107,11 @@ a:focus-visible
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  justify-content: center;
+  background-color: #F1FFFA;
 }
 
 nav {
@@ -171,5 +174,17 @@ label {
   color: black !important;
   opacity: .5 !important;
   font-size: 14px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  white-space: nowrap;
 }
 </style>

@@ -35,8 +35,8 @@ export default {
 
 <style scoped>
 #recover{
-    height:100%;
-    width:100%;
+    /* height:100%;
+    width:100%; */
     background-color: #F1FFFA;
     padding:20px;
 }

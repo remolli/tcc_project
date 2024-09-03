@@ -37,8 +37,8 @@ export default {
 
 <style scoped>
 #register{
-    height:100%;
-    width:100%;
+    /* height:100%;
+    width:100%; */
     padding:20px;
     background-color: #F1FFFA;
 }

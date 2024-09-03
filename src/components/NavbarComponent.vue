@@ -95,6 +95,8 @@ export default {
     padding:5px 20px;
     position: fixed;
     top:0px;
+    right:0px;
+    left:0px;
     width:100%;
     z-index: 10;
     box-shadow: 0px 10px 20px #15202530;

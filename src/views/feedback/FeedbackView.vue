@@ -7,9 +7,9 @@
                         <img class="logo-large" src="@/assets/logo.svg" alt="Logo Notícia para Todos">
                     </b-row> -->
                     <b-row class="pb-4 mb-2 mt-5" :class="isMobile ? 'pt-5' : 'pt-4'">
-                        <span style="font-size:20px; font-weight:500;">
+                        <h1 style="font-size:20px; font-weight:500;">
                             Deixe aqui seu feedback
-                        </span>
+                        </h1>
                     </b-row>
                     <b-row>
                         <b-col class="feedback-container p-0" :style="isMobile? 'height:70vh;' :''">

@@ -1,5 +1,5 @@
 <template>
-  <div id="home" class="home d-flex" style="flex-direction:column;" :style="isMobile ? 'margin: 0px 50px;' : 'margin: 0px 100px;'">
+  <div id="home" ref="scrollable" class="home d-flex" style="flex-direction:column;" :style="isMobile ? 'margin: 0px 50px;' : 'margin: 0px 100px;'">
 
     <b-row class="m-0 pb-3" align-v="center" align-h="between"
     :style="isMobile 
@@ -27,17 +27,20 @@
       </b-col>
     </b-row>
 
-    <div class="my-4 div-nav-tab" :style="isMobile ? 'border-radius:0px;' : ''">
+    <div class="my-4 div-nav-tab" :style="isMobile ? 'border-radius:0px;' : ''"
+    @mouseover="pauseScroll" @mouseleave="resumeScroll" ref="navbar">
       <NavTabComponent
       :isMobile="isMobile"
       :category="category"
-      :list="listCategory"
+      :list="listTags.length>0 ? listCategory : listCategory.filter(e=>e.en!='Recommended')"
       @change="changeCategory"
+      @focus="pauseScroll"
+      @blur="resumeScroll"
       />
     </div>
 
 
-    <b-col style="width:100%;" align-self="center" role="tabpanel" :aria-labelledby="category.pt">
+    <b-col v-if="renderComponent" style="width:100%;" align-self="center" role="tabpanel" :aria-labelledby="category.pt">
       <ul class="p-0 px-1">
         <b-row v-for="(item,idx) in filteredItems" :key="idx" class="m-0" align-h="center">
           <ArticleComponent :isMobile="isMobile"
@@ -53,6 +56,7 @@
           :lastEditDate="item.updated"
           :image="item.image"
           :url="item.web_url"
+          @focus=handleUserScroll
           />
           <ArticleComponent :isMobile="isMobile"
           v-else
@@ -66,6 +70,7 @@
           :lastEditDate="item.updated"
           :image="item.image"
           :url="item.url"
+          @focus=handleUserScroll
           />
         </b-row>
       </ul>
@@ -76,6 +81,7 @@
 <script>
 import ArticleComponent from './ArticleComponent.vue';
 import NavTabComponent from './NavTabComponent.vue';
+import Cookies from '@/plugins/cookies';
 export default {
   name: 'HomeView',
   components: {
@@ -84,8 +90,15 @@ export default {
   },
   data(){
     return {
+      renderComponent: true,
       loading: false,
       isMobile: window.innerWidth<720,
+      isScrolling: true,
+      scrollInterval: null,
+      userScrollTimeout: null,
+      scrollSpeed: 1,
+      listTags: [],
+      copyright: null,
       items: [],
       queryItems: [],
       query: '',
@@ -96,10 +109,10 @@ export default {
           pt: 'Mais populares', 
           en: 'Most popular'
         },
-        // { 
-        //   pt: 'Recomendados', 
-        //   en: 'Recommended'
-        // },
+        { 
+          pt: 'Recomendados', 
+          en: 'Recommended'
+        },
         { 
           pt: 'Tecnologia', 
           en: 'Tech'
@@ -135,49 +148,118 @@ export default {
         return this.items;
     },
   },
+  mounted() {
+    this.startAutoScroll();
+  },
+  beforeDestroy() {
+    clearInterval(this.scrollInterval);
+  },
   async created(){
     window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
-    await this.loadData(30);
+    this.listTags = Cookies.get() || [];
+    if(this.listTags.length){
+      this.category = { 
+        pt: 'Recomendados', 
+        en: 'Recommended'
+      };
+      this.loadRecommended();
+    }
+    else await this.loadData(30);
   },
   methods: {
+    async forceRender(){
+      this.renderComponent=false;
+      await this.$nextTick();
+      this.renderComponent=true;
+    },
+
     changeCategory(value){
       this.category = value;
       if(this.category.en=="Most popular") this.loadData(30);
+      else if(this.category.en=="Recommended") this.loadRecommended();
       else this.search(value.en);
-      console.log(value);
+      this.scrollTop();
     },
+
+    async loadRecommended(){
+      this.listTags = Cookies.get() || [];
+      this.listTags.forEach(tag =>{
+        this.search(tag, true);
+      });
+    },
+
     async loadData(period){
       try{
         this.queryItems=[];
         this.loading = true;
         const response = await this.$axios.get('mostpopular/v2/emailed/'+period+'.json');
-        console.log(response);
+        this.copyright = response.data.copyright;
         this.items = response.data.results.filter(e=>e.media[0]?.['media-metadata']?.length>0);
         this.items.forEach(e=>e.image=e.media[0]?.['media-metadata']?.[2]);
+        await this.forceRender();
       }
       catch(error){
         console.log(error);
       }
       finally { this.loading = false; }
     },
-    async search(value){
+    async search(value, join=false){
       try{
         this.loading = true;
         const response = await this.$axios.get('search/v2/articlesearch.json?q='+(value || this.query)+'&sort='+this.sort+'&facet='+true);
+        this.copyright = response.data.copyright;
         var filtered = response.data.response.docs.filter(e=>e.multimedia.length>0);
         filtered.forEach(e=>{
           e.image = e.multimedia.find(image=>image.subtype=='xlarge');
           e.image.url = "https://www.nytimes.com/" + e.image.url;
         });
-        console.log('Search filtered');
-        console.log(filtered);
-        this.queryItems = filtered;
+        if(join) this.queryItems.push(...filtered);
+        else this.queryItems = filtered;
+        await this.forceRender();
       }
       catch(error){
         console.log(error);
       }
       finally { this.loading = false; }
     },
+
+    startAutoScroll() {
+      this.scrollInterval = setInterval(() => {
+        if (this.isScrolling) {
+          const navbar = this.$refs.navbar;
+          navbar.scrollBy({
+            left: this.scrollSpeed,
+            behavior: 'smooth'
+          });
+
+          if (navbar.scrollLeft + navbar.clientWidth + 10 >= navbar.scrollWidth) {
+            this.pauseScroll()
+            navbar.scrollTo({ left: 0, behavior: 'smooth' });
+            setTimeout(() => {
+              this.resumeScroll();
+            }, 1000)
+          }
+        }
+      }, 50);
+    },
+    pauseScroll() {
+      this.isScrolling = false;
+    },
+    resumeScroll() {
+      this.isScrolling = true;
+    },
+    handleUserScroll() {
+      this.pauseScroll();
+
+      // Limpa o timeout anterior se o usuário continuar interagindo
+      clearTimeout(this.userScrollTimeout);
+
+      // Define um timeout para retomar o scroll automático após 2 segundos sem interação
+      this.userScrollTimeout = setTimeout(() => {
+        this.resumeScroll();
+      }, 2000); // Ajuste esse tempo conforme necessário
+    },
+
     capitalize(string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
     }
@@ -217,8 +299,9 @@ export default {
   z-index:2;
   box-shadow: 0px 0px 20px #00000050;
   border-radius:20px;
+  scroll-behavior: smooth;
 } 
 .div-nav-tab::-webkit-scrollbar {
-  display: none;
+  /* display: none; */
 }
 </style>

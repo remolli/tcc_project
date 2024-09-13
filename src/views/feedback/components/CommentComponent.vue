@@ -7,7 +7,7 @@
                 <!-- User info -->
                 <b-col>
                     <b-row align-h="start" class="text-start">
-                        <span class="comment-name"> {{ name }} </span>
+                        <h2 class="comment-name"> {{ name }} </h2>
                     </b-row>
                     <b-row align-h="start" class="text-start">
                         <span class="comment-date"> {{ date }} </span>

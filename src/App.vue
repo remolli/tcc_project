@@ -1,20 +1,33 @@
 <template>
   <div id="app" translate="no">
-    
-    <NavbarComponent style="width:100% !important;"/>
+    <b-col class="p-0 d-flex align-items-center justify-content-center flex-column">
+      
+      <NavbarComponent style="width:100% !important;"/>
 
-    <router-view/>
+      <router-view/>
 
-    <div id="google_translate_element"></div>
-    
+      <div id="google_translate_element"></div>
+      
+      <FooterComponent v-if="currentRoute=='home'"
+      style="width:100vw !important;"
+      :text="copyright"/>
+    </b-col>
   </div>
 </template>
 
 <script>
 import NavbarComponent from './components/NavbarComponent.vue';
+import FooterComponent from './components/FooterComponent.vue';
 export default {
   components:{
     NavbarComponent,
+    FooterComponent,
+  },
+  data(){
+    return {
+      copyright: null,
+      currentRoute: null,
+    }
   },
   mounted(){
     this.translateConfigs();
@@ -23,9 +36,12 @@ export default {
       this.doTranslate();
     },1000);
     setTimeout(()=>{
-        var isEmpty = document.getElementById('google_translate_element').innerHTML === "";
+      var isEmpty = document.getElementById('google_translate_element').innerHTML === "";
         if(isEmpty) this.$router.go();
     }, 1250)
+    setInterval(()=>{
+        if(this.currentRoute != this.$route.name) this.currentRoute = this.$route.name; 
+    }, 250)
   },
   methods:{
     googleTranslateElementInit() {
@@ -111,6 +127,7 @@ a:focus-visible
   min-width: 100vw;
   display: flex;
   justify-content: center;
+  align-items: center;
   background-color: #F1FFFA;
 }
 

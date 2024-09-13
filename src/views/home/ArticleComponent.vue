@@ -1,5 +1,5 @@
 <template>
-    <div class="my-5" :class="isMobile ? 'py-1 px-4' : 'p-5'"
+    <div class="my-5" :class="isMobile ? 'py-1 px-4' : 'p-5'" ref="container"
     style="border:4px solid #AAAAAA; background-color:#FAFAFC; border-radius:30px; text-align:start;">
         <b-row class="h-100">
 
@@ -12,6 +12,7 @@
                         'width': '100%',
                         'min-width': isMobile ? '250px' : '300px',
                         'min-height': '100%',
+                        'max-height': '350px',
                         'border-radius': '20px',
                         'object-fit': 'cover',
                     }">
@@ -28,6 +29,7 @@
                         'width': '100%',
                         'min-width': isMobile ? '250px' : '300px',
                         'min-height': '100%',
+                        'max-height': '350px',
                         'border-radius': '20px',
                         'object-fit': 'cover',
                     }">
@@ -65,7 +67,8 @@
                     </b-col>
                     <div v-if="isMobile" style="height:15px;"></div>
                     <b-col style="max-width: max-content;">
-                        <b-link target="_blank" :href="url" :style="isMobile ? 'font-size:16px;' : 'font-size:20px;'">
+                        <b-link @click.prevent="addCookies(url)" target="_blank" :href="url" :style="isMobile ? 'font-size:16px;' : 'font-size:20px;'"
+                        @focus="scrollIntoView">
                             Leia a notícia completa
                             <span class="visually-hidden"> {{title}} </span>
                         </b-link>
@@ -78,6 +81,7 @@
 </template>
 
 <script>
+import cookies from '@/plugins/cookies'
 export default {
     name: "ArticleComponent",
     props: {
@@ -97,6 +101,29 @@ export default {
         publishDate: String,
         lastEditDate: String,
         url: String,
+    },
+    methods: {
+        addCookies(url){
+            var section = this.section || this.subsection
+            cookies.add(section);
+
+            setTimeout(() => {
+                window.location.href = url;
+            }, 500);
+        },
+        scrollIntoView() {
+            this.$emit('focus')
+            setTimeout(()=>{
+                const container = this.$refs.container;
+                if (container) {
+                    container.scrollIntoView({
+                        behavior: 'smooth', // Para uma rolagem suave
+                        block: 'center',    // Centraliza verticalmente
+                        inline: 'center'    // Centraliza horizontalmente
+                    });
+                }
+            }, 50)
+        },
     },
 }
 </script>

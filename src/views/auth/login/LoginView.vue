@@ -94,7 +94,9 @@ export default {
         window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
     },
     mounted(){
-        this.$refs.inputEmail.focus();
+        setTimeout(()=>{
+            this.$refs.inputEmail.focus();
+        }, 250)
     },
     methods:{
         isValidEmail(value){
@@ -122,7 +124,7 @@ export default {
 
             try{
                 this.loading = true;
-                Utility.successSnackBar("Login realizado com sucesso")
+                Utility.successSnackBar("Login realizado com sucesso", null, ()=>{ this.$router.push("/") })
             }
             catch(error){
                 console.log(error);

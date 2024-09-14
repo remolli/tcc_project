@@ -10,34 +10,37 @@ class Utility {
         // }
         this.errorSnackBar('Ops! Ocorreu um erro, Tente novamente');
     }
-    static successSnackBar(message, timer){
+    static successSnackBar(message, timer, then){
         Swal.fire({
-            position: "bottom-right",
-            title: "<div translate=\"no\" style='display:flex; align-items:center; color:white; font-size:17px; font-weight:400;' class='font-quicksand'>" + message + "</div>",
-            icon: null,
-            showConfirmButton: false,
+            position: "center",
+            title: message,
+            icon: "success",
+            showConfirmButton: true,
             timer: timer,
-            background: '#19B377',
+            // background: '#19B377',
             customClass: {
                 popup: 'custom-swal-popup',
                 title: 'custom-swal-title',
             },
-            backdrop: false,
+            backdrop: true,
+        }).then(()=>{
+            // if(result.isConfirmed)
+            if(then) then();
         });
     }
     static errorSnackBar(message, timer){
         Swal.fire({
-            position: "bottom-right",
-            title: "<div translate=\"no\" style='display:flex; align-items:center; color:white; font-size:17px; font-weight:400;' class='font-quicksand'>" + message + "</div>",
-            icon: null,
-            showConfirmButton: false,
+            position: "center",
+            title: message,
+            icon: "error",
+            showConfirmButton: true,
             timer: timer,
-            background: '#F4483B',
+            // background: '#F4483B',
             customClass: {
                 popup: 'custom-swal-popup',
                 title: 'custom-swal-title',
             },
-            backdrop: false,
+            backdrop: true,
         });
     }
 }

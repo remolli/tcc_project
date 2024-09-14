@@ -105,7 +105,9 @@ export default {
         }
     },
     mounted(){
-        this.$refs.inputEmail.focus();
+        setTimeout(()=>{
+            this.$refs.inputEmail.focus();
+        }, 250)
     },
     computed:{
         isValidEmail(){

@@ -116,7 +116,7 @@ export default {
 
             try{
                 this.loading = true;
-                Utility.successSnackBar("Registro realizado com sucesso!");
+                Utility.successSnackBar("Registro realizado com sucesso!", null, ()=>{ this.$router.push("/login") });
             }
             catch(error){
                 console.log(error);

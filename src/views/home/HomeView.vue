@@ -37,7 +37,7 @@
       @focus="pauseScroll"
       @blur="resumeScroll"
       />
-    </div>
+    </div>  
 
 
     <b-col v-if="renderComponent" style="width:100%;" align-self="center" role="tabpanel" :aria-labelledby="category.pt">
@@ -262,7 +262,7 @@ export default {
 
     capitalize(string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
-    }
+    },
   }
 }
 </script>

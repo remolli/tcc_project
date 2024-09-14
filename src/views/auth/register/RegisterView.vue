@@ -155,7 +155,9 @@ export default {
         window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
     },
     mounted(){
-        this.$refs.inputUsername.focus();
+        setTimeout(()=>{
+            this.$refs.inputUsername.focus();
+        }, 250)
     },
     computed:{
         isValidUsername(){

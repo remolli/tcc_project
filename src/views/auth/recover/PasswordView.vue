@@ -128,7 +128,7 @@ export default {
 
             try{
                 this.loading = true;
-                Utility.successSnackBar("Nova senha atualizada com sucesso!");
+                Utility.successSnackBar("Nova senha atualizada com sucesso!", null, ()=>{ this.$router.push("/login") });
             }
             catch(error){
                 console.log(error);

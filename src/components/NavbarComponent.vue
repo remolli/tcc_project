@@ -1,5 +1,5 @@
 <template>
-    <div class="navbar-parent">
+    <nav class="navbar-parent" role="navigation">
         <b-row class="m-0 w-100" align-h="between" align-v="center">
             <b-button role="link" variant="link" class="logo-button"
             title="Alternativa para página inicial"
@@ -64,7 +64,7 @@
                 </div>
             </div>
         </b-row>
-    </div>
+    </nav>
 </template>
 
 <script>

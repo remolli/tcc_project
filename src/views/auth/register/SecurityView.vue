@@ -76,7 +76,8 @@ import Utility from '@/utils/Utility';
 export default {
     name: 'RegisterView',
     props:{
-        answers: Object
+        user: Object,
+        answers: Object,
     },
     data(){
         return {
@@ -116,6 +117,18 @@ export default {
 
             try{
                 this.loading = true;
+
+                var modal={
+                    userName: this.user.username,
+                    password: this.user.password,
+                    email: this.user.email,
+                    firstQuestion: this.first,
+                    secondQuestion: this.second,
+                }
+
+                const response = await this.$axios.post(process.env.VUE_APP_NT_BASE_URL + '/auth/cadastro', modal)
+                console.log(response);
+
                 Utility.successSnackBar("Registro realizado com sucesso!", null, ()=>{ this.$router.push("/login") });
             }
             catch(error){

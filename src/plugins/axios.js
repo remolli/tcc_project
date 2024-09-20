@@ -16,19 +16,19 @@ let config = {
 
 const _axios = axios.create(config);
 
-_axios.interceptors.request.use(
-  function(config) {
-    config.params = {
-      'api-key': process.env.VUE_APP_TOKEN_API
-    }
-    // Do something before request is sent
-    return config;
-  },
-  function(error) {
-    // Do something with request error
-    return Promise.reject(error);
-  }
-);
+// _axios.interceptors.request.use(
+//   function(config) {
+//     config.params = {
+//       'api-key': process.env.VUE_APP_TOKEN_API
+//     }
+//     // Do something before request is sent
+//     return config;
+//   },
+//   function(error) {
+//     // Do something with request error
+//     return Promise.reject(error);
+//   }
+// );
 
 // Add a response interceptor
 _axios.interceptors.response.use(

@@ -17,11 +17,9 @@
                             id="inputEmail"
                             name="inputEmail"
                             ref="inputEmail"
-                            type="email"
+                            type="text"
                             placeholder="Digite aqui seu e-mail"
                             v-model="email"
-                            :state="isValidEmail(email)"
-                            :aria-invalid="email ? !isValidEmail(email) : false"
                             :disabled="loading"
                             required
                             >
@@ -38,9 +36,6 @@
                                 :type="visibility ? 'text' : 'password'"
                                 placeholder="Digite aqui sua senha"
                                 v-model="password"
-                                :state="isValidPassword(password)"
-                                :aria-invalid="password ? !isValidPassword(password) : false"
-                                aria-errormessage="passwordError"
                                 :disabled="loading"
                                 required
                                 >
@@ -79,6 +74,7 @@
 
 <script>
 import Utility from '@/utils/Utility';
+import axios from 'axios';
 export default {
     name: 'LoginView',
     data(){
@@ -99,6 +95,12 @@ export default {
         }, 250)
     },
     methods:{
+        getInstance(){
+            const config = { baseURL: process.env.VUE_APP_NT_BASE_URL }
+            // if(token) config.headers = { Authorization: token }
+            const instance = axios.create(config)
+            return instance
+        },
         isValidEmail(value){
             if(!value) return null;
             const regex = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+(\.[a-z]+)?$/i;
@@ -109,26 +111,41 @@ export default {
             return value.length >= 6;
         },
         validateForm(){
-            if(!this.isValidEmail(this.email)){
-                this.$refs.inputEmail.focus();
-                return false;
-            }
-            else if(!this.isValidPassword(this.password)){
-                this.$refs.inputPassword.focus();
-                return false;
-            }
-            else return true;
+            return true;
+            // if(!this.isValidEmail(this.email)){
+            //     this.$refs.inputEmail.focus();
+            //     return false;
+            // }
+            // else if(!this.isValidPassword(this.password)){
+            //     this.$refs.inputPassword.focus();
+            //     return false;
+            // }
+            // else return true;
         },
         async login(){
             if(!this.validateForm()) return;
 
             try{
                 this.loading = true;
+                
+                // const instance = this.getInstance();
+
+                var model = {
+                    username: this.email,
+                    password: this.password,
+                }
+                
+                const response = await this.$axios.post(process.env.VUE_APP_NT_BASE_URL + 'auth/login', model)
+                console.log(response);
+
                 Utility.successSnackBar("Login realizado com sucesso", null, ()=>{ this.$router.push("/") })
             }
             catch(error){
                 console.log(error);
-                Utility.errorSnackBar("Ocorreu um erro ao realizar o login. Tente novamente!")
+                if(error?.response?.status==401)
+                    Utility.errorSnackBar("E-mail e/ou senha não coincidem!")
+                else
+                    Utility.errorSnackBar("Ocorreu um erro ao realizar o login. Tente novamente!")
             }
             finally { this.loading = false; }
         },

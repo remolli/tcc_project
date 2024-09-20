@@ -1,7 +1,7 @@
 <template>
     <div id="register">
         <RegisterView v-if="step==0" @nextStep="nextStep" :user="user"/>
-        <SecurityView v-if="step==1" @backStep="backStep" :answers="answers"/>
+        <SecurityView v-if="step==1" @backStep="backStep" :user="user" :answers="answers"/>
     </div>
 </template>
 

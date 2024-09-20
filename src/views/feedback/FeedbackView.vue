@@ -14,6 +14,13 @@
                     <b-row>
                         <b-col class="feedback-container p-0" :style="isMobile? 'height:70vh;' :''">
                             <div id="comments-container" class="comments-container w-100">
+                                <!-- <CommentComponent v-for="(item,idx) in listComments" :key="idx"
+                                :isMobile="isMobile" :style="idx==0? 'border:none;' :''"
+                                :stars="Number(item.rating)"
+                                :name="item.userName"
+                                :date="item.created_at"
+                                :text="item.description"
+                                /> -->
                                 <CommentComponent v-for="(item,idx) in [0,0,0,0,0]" :key="idx"
                                 :isMobile="isMobile" :style="idx==0? 'border:none;' :''"
                                 :stars="5"
@@ -103,6 +110,7 @@ export default {
     data(){
         return {
             loading: false,
+            listComments: [],
             comment: '',
             stars: 0,
             isMobile: window.innerWidth < 720,
@@ -115,9 +123,34 @@ export default {
         // this.commentsContainerScrollBottom();
     },
     methods:{
+        async getFeedbacks(){
+            try{
+                this.loading=true;
+                const response = await this.$axios.get(process.env.VUE_APP_NT_BASE_URL + '/comments')
+                console.log(response);
+                this.listComments = response.data;
+            }
+            catch(error){
+                Utility.handleError(error)
+            }
+            finally{ this.loading=false; }
+        },
         async feedback(){
             try{
                 this.loading = true;
+
+                var modal = {
+                    // userName: ,
+                    description: this.comment,
+                    rating: String(this.stars),
+                }
+
+                const response = await this.$axios.post(process.env.VUE_APP_NT_BASE_URL + '/comments', modal)
+                console.log(response);
+
+                this.comment='';
+                this.stars=0;
+
                 Utility.successSnackBar("Comentário enviado com sucesso!")
             }
             catch(error){

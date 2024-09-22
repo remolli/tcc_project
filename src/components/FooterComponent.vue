@@ -1,8 +1,10 @@
 <template>
-    <b-row align-h="center" class="w-100 py-4 footer" :class="isMobile ? '' : 'fixed'">
-        <p style="margin:0px;">Developed by <b>Notícia para Todos</b> |
-        Copyright (c) {{ year }} <b>The New York Times Company</b>. All Rights Reserved.</p>
-    </b-row>
+    <footer role="contentinfo">
+        <b-row align-h="center" class="w-100 py-4 footer" :class="isMobile ? '' : 'fixed'">
+            <p style="margin:0px;">Developed by <b>Notícia para Todos</b> |
+            Copyright (c) {{ year }} <b>The New York Times Company</b>. All Rights Reserved.</p>
+        </b-row>
+    </footer>
 </template>
 
 <script>

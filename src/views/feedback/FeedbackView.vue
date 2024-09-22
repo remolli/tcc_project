@@ -6,91 +6,111 @@
                     <!-- <b-row align-h="center">
                         <img class="logo-large" src="@/assets/logo.svg" alt="Logo Notícia para Todos">
                     </b-row> -->
-                    <b-row class="pb-4 mb-2 mt-5" :class="isMobile ? 'pt-5' : 'pt-4'">
-                        <h1 style="font-size:20px; font-weight:500;">
-                            Deixe aqui seu feedback
-                        </h1>
-                    </b-row>
+                    <header role="header">
+                        <b-row class="pb-4 mb-2 mt-5" :class="isMobile ? 'pt-5' : 'pt-4'">
+                            <h1 style="font-size:20px; font-weight:500;">
+                                Deixe aqui seu feedback
+                            </h1>
+                        </b-row>
+                    </header>
                     <b-row>
                         <b-col class="feedback-container p-0" :style="isMobile? 'height:70vh;' :''">
-                            <div id="comments-container" class="comments-container w-100">
-                                <!-- <CommentComponent v-for="(item,idx) in listComments" :key="idx"
+                            <main role="contentinfo" id="comments-container" class="comments-container w-100">
+                                <CommentComponent v-for="(item,idx) in listComments" :key="idx"
                                 :isMobile="isMobile" :style="idx==0? 'border:none;' :''"
                                 :stars="Number(item.rating)"
                                 :name="item.userName"
-                                :date="item.created_at"
+                                :date="formatDateTimeBR(item.created_at)"
                                 :text="item.description"
-                                /> -->
-                                <CommentComponent v-for="(item,idx) in [0,0,0,0,0]" :key="idx"
+                                />
+                                <!-- <CommentComponent v-for="(item,idx) in [0,0,0,0,0]" :key="idx"
                                 :isMobile="isMobile" :style="idx==0? 'border:none;' :''"
-                                :stars="5"
+                                :stars="Math.ceil(Math.random()*5)"
                                 :name="'Eu mesmo'"
                                 :date="'13/08/2024 - 21:59'"
                                 :text="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur libero augue, at porttitor massa ultricies a. Donec eu mollis elit, vitae sagittis turpis. Cras pellentesque tristique tempor. Praesent ac elit nec urna.'"
-                                />
+                                /> -->
                                 <!-- :text="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur libero augue, at porttitor massa ultricies a. Donec eu mollis elit, vitae sagittis turpis. Cras pellentesque tristique tempor. Praesent ac elit nec urna malesuada ultricies nec non libero. Pellentesque placerat congue sagittis. In quam dui, lacinia eu quam et, cursus sollicitudin ante.'" -->
-                            </div>
+                            </main>
 
-                            <b-row class="input-bar py-3" cols="1" :class="isMobile ? 'px-3' : 'px-4 pb-4'">
-                                <b-col align-self="center" style="width:100%;">
-                                    <b-row>
-                                        <b-form-group label="Comentário" label-for="inputComment" label-align="start">
-                                            <b-form-textarea
-                                            id="inputComment"
-                                            name="inputComment"
-                                            type="text"
-                                            :maxlength="225"
-                                            class="textarea-input"
-                                            placeholder="Digite aqui seu comentário..."
-                                            v-model="comment"
-                                            :disabled="loading"
-                                            rows="1"
-                                            max-rows="3"
-                                            no-resize
-                                            required
-                                            :style="comment ? '' : 'height: 46px !important;'"
-                                            >
-                                            </b-form-textarea>
-                                        </b-form-group>
-                                        <!-- <b-form-textarea
-                                        id="inputComment"
-                                        name="inputComment"
-                                        type="text"
-                                        class="px-3 py-2 textarea-input"
-                                        :maxlength="225"
-                                        placeholder="Digite aqui seu comentário..."
-                                        v-model="comment"
-                                        :disabled="loading"
-                                        rows="1"
-                                        max-rows="1"
-                                        no-resize
-                                        required
-                                        >
-                                        </b-form-textarea> -->
-                                    </b-row>
-                                </b-col>
-                                <b-col>
-                                    <b-row align-h="between">
-                                        <b-col align-self="center" style="max-width: 200px;">
-                                            <b-form-rating 
-                                            id="inputRating"
-                                            name="inputRating"
-                                            class="rating-input"
-                                            v-model="stars"
-                                            :aria-required="true"
-                                            ></b-form-rating>
+                            <fieldset role="form" style="width:100%">
+                                <b-overlay :show="!isLogged" bg-color="black"
+                                style="
+                                border-bottom-left-radius: 40px !important;
+                                border-bottom-right-radius: 40px !important;
+                                ">
+                                    <template #overlay>
+                                        <div class="text-center" style="min-width: 100%;">
+                                            <h3 style="font-size:24px; color:white; min-width:100%;"
+                                            :style="
+                                            isMobile
+                                            ? 'font-size:20px;'
+                                            : 'font-size:24px;'
+                                            "> Entre no sistema para cadastrar um comentário </h3>
+                                        </div>
+                                    </template>
+                                    <b-row class="input-bar py-3 m-0" cols="1" :class="isMobile ? 'px-3' : 'px-4 pb-4'">
+                                        <b-col align-self="center" style="width:100%;">
+                                            <b-row>
+                                                <b-form-group label="Comentário" label-for="inputComment" label-align="start">
+                                                    <b-form-textarea
+                                                    id="inputComment"
+                                                    name="inputComment"
+                                                    type="text"
+                                                    :maxlength="225"
+                                                    class="textarea-input"
+                                                    placeholder="Digite aqui seu comentário..."
+                                                    v-model="comment"
+                                                    :disabled="loading"
+                                                    rows="1"
+                                                    max-rows="3"
+                                                    no-resize
+                                                    required
+                                                    :style="comment ? '' : 'height: 46px !important;'"
+                                                    >
+                                                    </b-form-textarea>
+                                                </b-form-group>
+                                                <!-- <b-form-textarea
+                                                id="inputComment"
+                                                name="inputComment"
+                                                type="text"
+                                                class="px-3 py-2 textarea-input"
+                                                :maxlength="225"
+                                                placeholder="Digite aqui seu comentário..."
+                                                v-model="comment"
+                                                :disabled="loading"
+                                                rows="1"
+                                                max-rows="1"
+                                                no-resize
+                                                required
+                                                >
+                                                </b-form-textarea> -->
+                                            </b-row>
                                         </b-col>
-                                        <b-col align-self="center" style="max-width: 150px;">
-                                            <b-button class="w-100" type="submit" variant="success" style="border-radius:8px; padding:7px 0px; font-size:17px;">
-                                                Enviar
-                                            </b-button>
-                                            <!-- <b-button variant="link" class="p-0" style="color:#ccc !important; font-size:40px;">
-                                                <b-icon icon="play"></b-icon>
-                                            </b-button> -->
+                                        <b-col>
+                                            <b-row align-h="between">
+                                                <b-col align-self="center" style="max-width: 200px;">
+                                                    <b-form-rating 
+                                                    id="inputRating"
+                                                    name="inputRating"
+                                                    class="rating-input"
+                                                    v-model="stars"
+                                                    :aria-required="true"
+                                                    ></b-form-rating>
+                                                </b-col>
+                                                <b-col align-self="center" style="max-width: 150px;">
+                                                    <b-button class="w-100" type="submit" variant="success" style="border-radius:8px; padding:7px 0px; font-size:17px;">
+                                                        Enviar
+                                                    </b-button>
+                                                    <!-- <b-button variant="link" class="p-0" style="color:#ccc !important; font-size:40px;">
+                                                        <b-icon icon="play"></b-icon>
+                                                    </b-button> -->
+                                                </b-col>
+                                            </b-row>
                                         </b-col>
                                     </b-row>
-                                </b-col>
-                            </b-row>
+                                </b-overlay>
+                            </fieldset>
                         </b-col>
                     </b-row>
                 </b-col>
@@ -102,6 +122,8 @@
 <script>
 import Utility from '@/utils/Utility';
 import CommentComponent from './components/CommentComponent.vue';
+import axios from 'axios';
+import cookies from '@/plugins/cookies';
 export default {
     name: 'FeedbackView',
     components:{
@@ -109,6 +131,7 @@ export default {
     },
     data(){
         return {
+            isLogged: false,
             loading: false,
             listComments: [],
             comment: '',
@@ -118,15 +141,25 @@ export default {
     },
     created(){
         window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
+        this.isLogged = !!cookies.getToken();
     },
     mounted(){
+        this.getFeedbacks();
         // this.commentsContainerScrollBottom();
     },
     methods:{
+        getInstance(){
+            const config = { baseURL: process.env.VUE_APP_NT_BASE_URL }
+            const token = cookies.getToken();
+            if(token) config.headers = { Authorization: token }
+            const instance = axios.create(config)
+            return instance
+        },
         async getFeedbacks(){
             try{
-                this.loading=true;
-                const response = await this.$axios.get(process.env.VUE_APP_NT_BASE_URL + '/comments')
+                this.loading=true
+                const instance = this.getInstance();
+                const response = await instance.get('comments')
                 console.log(response);
                 this.listComments = response.data;
             }
@@ -139,13 +172,15 @@ export default {
             try{
                 this.loading = true;
 
+                const username = cookies.getUsername();
                 var modal = {
-                    // userName: ,
+                    userName: username,
                     description: this.comment,
                     rating: String(this.stars),
                 }
 
-                const response = await this.$axios.post(process.env.VUE_APP_NT_BASE_URL + '/comments', modal)
+                const instance = this.getInstance();
+                const response = await instance.post('comments', modal)
                 console.log(response);
 
                 this.comment='';
@@ -162,7 +197,17 @@ export default {
         commentsContainerScrollBottom() {
             const container = document.getElementById('comments-container');
             if (container) container.scrollTop = container.scrollHeight;
-        }
+        },
+        formatDateTimeBR(value){
+            if(!value) return '---';
+            var day = value.substring(8,10);
+            var month = value.substring(5,7);
+            var year = value.substring(0,4);
+            var hour = value.substring(11,13);
+            var minute = value.substring(14,16);
+            var dateBR = day+'/'+month+'/'+year+' '+hour+':'+minute;
+            return dateBR;
+        },
     },
 }
 </script>
@@ -225,5 +270,11 @@ export default {
 * /deep/ .form-group label {
     color: #e1e1e3;
     font-size: 18px;
+}
+* /deep/ .position-absolute,
+* /deep/ .b-overlay {
+    z-index: 2 !important;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
 }
 </style>

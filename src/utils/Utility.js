@@ -10,6 +10,22 @@ class Utility {
         // }
         this.errorSnackBar('Ops! Ocorreu um erro, Tente novamente');
     }
+    static questionSnackBar(message, then){
+        Swal.fire({
+            position: "center",
+            title: message,
+            icon: "question",
+            showConfirmButton: true,
+            showCancelButton: true,
+            customClass: {
+                popup: 'custom-swal-popup',
+                title: 'custom-swal-title',
+            },
+            backdrop: true,
+        }).then((result)=>{
+            if(result.isConfirmed && then) then();
+        });
+    }
     static successSnackBar(message, timer, then){
         Swal.fire({
             position: "center",
@@ -17,14 +33,12 @@ class Utility {
             icon: "success",
             showConfirmButton: true,
             timer: timer,
-            // background: '#19B377',
             customClass: {
                 popup: 'custom-swal-popup',
                 title: 'custom-swal-title',
             },
             backdrop: true,
         }).then(()=>{
-            // if(result.isConfirmed)
             if(then) then();
         });
     }
@@ -35,7 +49,6 @@ class Utility {
             icon: "error",
             showConfirmButton: true,
             timer: timer,
-            // background: '#F4483B',
             customClass: {
                 popup: 'custom-swal-popup',
                 title: 'custom-swal-title',

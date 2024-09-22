@@ -2,6 +2,7 @@ import Cookie from 'js-cookie';
 
 const KEY = '_list_tags_';
 const TOKEN = '_nt_token_';
+const USERKEY = '_nt_username_';
 
 export default {
     setToken(value) {
@@ -15,6 +16,19 @@ export default {
     }, 
     deleteToken() {
         return Cookie.remove(TOKEN);
+    }, 
+
+    setUsername(value) {
+        try{
+            Cookie.set(USERKEY, value);
+            return true;
+        } catch(error){ return false; }
+    },
+    getUsername() {
+        return Cookie.get(USERKEY);
+    }, 
+    deleteUsername() {
+        return Cookie.remove(USERKEY);
     }, 
 
     set(value) {

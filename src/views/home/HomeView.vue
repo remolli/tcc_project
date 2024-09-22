@@ -31,19 +31,21 @@
 
     <div class="my-4 div-nav-tab" :style="isMobile ? 'border-radius:0px;' : ''"
     @mouseover="pauseScroll" @mouseleave="resumeScroll" ref="navbar">
-      <NavTabComponent
-      :isMobile="isMobile"
-      :category="category"
-      :list="listTags.length>0 ? listCategory : listCategory.filter(e=>e.en!='Recommended')"
-      @change="changeCategory"
-      @focus="pauseScroll"
-      @blur="resumeScroll"
-      />
+      <nav role="navigation" style="padding:0px;">
+        <NavTabComponent
+        :isMobile="isMobile"
+        :category="category"
+        :list="listTags.length>0 ? listCategory : listCategory.filter(e=>e.en!='Recommended')"
+        @change="changeCategory"
+        @focus="pauseScroll"
+        @blur="resumeScroll"
+        />
+      </nav>
     </div>  
 
 
     <b-col v-if="renderComponent" style="width:100%;" align-self="center" role="tabpanel" :aria-labelledby="category.pt">
-      <ul class="p-0 px-1">
+      <main role="main" class="p-0 px-1">
         <b-row v-for="(item,idx) in filteredItems" :key="idx" class="m-0" align-h="center">
           <ArticleComponent :isMobile="isMobile"
           v-if="queryItems.length>0"
@@ -75,7 +77,7 @@
           @focus=handleUserScroll
           />
         </b-row>
-      </ul>
+      </main>
     </b-col>
   </div>
 </template>
@@ -178,20 +180,21 @@ export default {
 
     changeCategory(value){
       this.category = value;
-      if(this.category.en=="Most popular") this.loadData(30);
-      else if(this.category.en=="Recommended") this.loadRecommended();
-      else this.search(value.en);
+      if(this.category.en=="Most popular") this.loadData(30, true);
+      else if(this.category.en=="Recommended") this.loadRecommended(true);
+      else this.search(value.en, false, true);
       this.scrollTop();
+      
     },
 
-    async loadRecommended(){
+    async loadRecommended(selected=false){
       this.listTags = Cookies.get() || [];
       this.listTags.forEach(tag =>{
-        this.search(tag, true);
+        this.search(tag, true, selected);
       });
     },
 
-    async loadData(period){
+    async loadData(period, selected=false){
       try{
         this.queryItems=[];
         this.loading = true;
@@ -200,13 +203,14 @@ export default {
         this.items = response.data.results.filter(e=>e.media[0]?.['media-metadata']?.length>0);
         this.items.forEach(e=>e.image=e.media[0]?.['media-metadata']?.[2]);
         await this.forceRender();
+        if(selected) this.focusFirstArticle();
       }
       catch(error){
         console.log(error);
       }
       finally { this.loading = false; }
     },
-    async search(value, join=false){
+    async search(value, join=false, selected=false){
       try{
         this.loading = true;
         const response = await this.$axios.get('search/v2/articlesearch.json?q='+(value || this.query)+'&sort='+this.sort+'&facet='+true+'&'+this.authParam);
@@ -219,11 +223,16 @@ export default {
         if(join) this.queryItems.push(...filtered);
         else this.queryItems = filtered;
         await this.forceRender();
+        if(selected) this.focusFirstArticle();
       }
       catch(error){
         console.log(error);
       }
       finally { this.loading = false; }
+    },
+    focusFirstArticle(){
+      const link = document.querySelector('article a');
+      if(link) link.focus();
     },
 
     startAutoScroll() {
@@ -261,6 +270,12 @@ export default {
       this.userScrollTimeout = setTimeout(() => {
         this.resumeScroll();
       }, 2000); // Ajuste esse tempo conforme necessário
+    },
+    scrollTop(){
+      window.scrollTo({
+        top: this.isMobile ? 370 : 330,
+        behavior: 'smooth'
+      })
     },
 
     capitalize(string) {

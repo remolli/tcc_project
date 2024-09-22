@@ -1,5 +1,5 @@
 <template>
-    <div class="my-5" :class="isMobile ? 'py-1 px-4' : 'p-5'" ref="container"
+    <article role="article" class="my-5" :class="isMobile ? 'py-1 px-4' : 'p-5'" ref="container"
     style="border:4px solid #AAAAAA; background-color:#FAFAFC; border-radius:30px; text-align:start;">
         <b-row class="h-100">
 
@@ -77,7 +77,7 @@
                 <div v-if="isMobile" class="py-2"></div>
             </b-col>
         </b-row>
-    </div>
+    </article>
 </template>
 
 <script>

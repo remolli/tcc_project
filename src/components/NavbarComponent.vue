@@ -25,10 +25,14 @@
                     <b-button role="link" @click="$router.push({name: 'feedback'})" variant="link" class="nav-mobile-link w-100 py-2"
                     :class="currentRoute=='feedback'? 'nav-desktop-button-active' :''"
                     > Feedback </b-button>
-                    <b-button role="link" @click="$router.push({name: 'login'})" variant="link" class="nav-mobile-link w-100 py-2"
+                    
+                    <b-button v-if="isLogged" role="link" @click="logout" variant="link" class="nav-mobile-link w-100 py-2"
+                    > Logout </b-button>
+
+                    <b-button v-if="!isLogged" role="link" @click="$router.push({name: 'login'})" variant="link" class="nav-mobile-link w-100 py-2"
                     :class="currentRoute=='login'? 'nav-desktop-button-active' : ''"
                     > Login </b-button>
-                    <b-button role="link" @click="$router.push({name: 'register'})" variant="link" class="nav-mobile-link w-100 py-2"
+                    <b-button v-if="!isLogged" role="link" @click="$router.push({name: 'register'})" variant="link" class="nav-mobile-link w-100 py-2"
                     :class="currentRoute=='register'? 'nav-desktop-button-active' : ''"
                     > Cadastre-se </b-button>
                 </div>
@@ -45,21 +49,25 @@
                 :class="currentRoute=='feedback'? 'nav-desktop-link-active' :''"
                 > Feedback </b-button>
 
-                <b-button v-if="isLogged" 
-                aria-label="Perfil"
-                class="py-1">
-                    <b-icon icon="person"></b-icon>
+                <b-button v-if="isLogged" variant="light" class="py-2 d-flex align-items-center" @click="logout"
+                style="max-height:45px;">
+                    Logout
+                    <!-- <div style="width:5px;"></div>
+                    <b-icon icon="box-arrow-right"></b-icon> -->
                 </b-button>
-                
-                <div class="d-flex p-0 align-items-center">
-                    <b-button role="link" v-if="!isLogged" variant="light" class="py-2" @click="$router.push({name: 'login'})"
+                <div v-else class="d-flex p-0 align-items-center">
+                    <b-button role="link" variant="light" class="py-2" @click="$router.push({name: 'login'})"
                     :class="currentRoute=='login'? 'nav-desktop-button-active' : ''" style="max-height:45px;">
                         Login
+                        <!-- <div style="width:5px;"></div>
+                        <b-icon icon="box-arrow-right"></b-icon> -->
                     </b-button>
                     <div style="width:10px;"></div>
-                    <b-button role="link" v-if="!isLogged" variant="light" class="py-2" @click="$router.push({name: 'register'})"
+                    <b-button role="link" variant="light" class="py-2" @click="$router.push({name: 'register'})"
                     :class="currentRoute=='register'? 'nav-desktop-button-active' : ''" style="max-height:45px;">
                         Cadastre-se
+                        <!-- <div style="width:5px;"></div>
+                        <b-icon icon="box-arrow-right"></b-icon> -->
                     </b-button>
                 </div>
             </div>
@@ -68,6 +76,8 @@
 </template>
 
 <script>
+import Utility from '@/utils/Utility';
+import cookies from '@/plugins/cookies';
 export default {
     name: "NavbarComponent",
     data(){
@@ -79,10 +89,21 @@ export default {
     },
     created(){
         setInterval(()=>{
-            if(this.currentRoute != this.$route.name) this.currentRoute = this.$route.name; 
+            if(this.currentRoute != this.$route.name) this.currentRoute = this.$route.name;
         }, 250)
         window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
+        this.isLogged = !!cookies.getToken();
     },
+    methods: {
+        logout(){
+            Utility.questionSnackBar("Deseja realmente sair?", ()=>{
+                cookies.deleteToken();
+                Utility.successSnackBar("Logout realizado com sucesso!", null, ()=>{ 
+                    this.$router.go();
+                })
+            })
+        },
+    }
 }
 </script>
 

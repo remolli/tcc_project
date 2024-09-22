@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Guard from '@/service/middleware'
 
 Vue.use(VueRouter)
 
@@ -22,18 +23,25 @@ const routes = [
   {
     path: '/login',
     name: 'login',
+    beforeEnter: Guard.redirectIfAuthenticated,
     component: () => import('../views/auth/login/LoginView.vue')
   },
   {
     path: '/cadastro',
     name: 'register',
+    beforeEnter: Guard.redirectIfAuthenticated,
     component: () => import('../views/auth/register/RegisterPage.vue')
   },
   {
     path: '/recuperar',
     name: 'recover',
+    beforeEnter: Guard.redirectIfAuthenticated,
     component: () => import('../views/auth/recover/RecoverPage.vue')
   },
+  {
+      path: '*',
+      redirect: '/',
+  }
 ]
 
 const router = new VueRouter({

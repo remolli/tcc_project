@@ -1,11 +1,13 @@
 <template>
-  <div id="home" ref="scrollable" class="home d-flex h-100" style="flex-direction:column;" :style="isMobile ? 'margin: 0px 50px;' : 'margin: 0px 100px;'">
+  <div id="home" ref="scrollable" class="home d-flex h-100" style="flex-direction:column;" >
     
     <header role="banner">
       <b-row class="m-0 pb-3 h-100" align-v="center" align-h="between"
-      :style="isMobile 
+      :style=" 
+      filteredItems.length==0 ? ''
+      : isMobile 
       ? 'padding-top:125px;'
-      : 'margin:0px 80px; padding-top:125px;'" 
+      : 'margin:0px 80px; padding-top:125px;'"
       :cols="isMobile ? 1 : null"
       >
         <b-col 
@@ -226,7 +228,7 @@ export default {
         if(selected) this.focusFirstArticle();
       }
       catch(error){
-        console.log(error);
+        error;
       }
       finally { this.loading = false; }
     },
@@ -319,7 +321,7 @@ export default {
   border-radius:20px;
   scroll-behavior: smooth;
 } 
-.div-nav-tab::-webkit-scrollbar {
-  /* display: none; */
-}
+/* .div-nav-tab::-webkit-scrollbar {
+  display: none;
+} */
 </style>

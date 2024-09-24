@@ -137,14 +137,14 @@ export default {
                     secondQuestion: this.second,
                 }
 
-                const response = await instance.post('auth/cadastro', modal)
-                console.log(response);
+                await instance.post('users/cadastro', modal);
 
                 Utility.successSnackBar("Registro realizado com sucesso!", null, ()=>{ this.$router.push("/login") });
             }
             catch(error){
-                console.log(error);
-                Utility.errorSnackBar("Ocorreu um erro ao realizar o registro. Tente novamente!");
+                if(error?.response?.status==409)
+                    Utility.errorSnackBar("Nome de usuário ou e-mail já existe.");
+                else Utility.errorSnackBar("Ocorreu um erro ao realizar o registro. Tente novamente!");
             }
             finally { this.loading = false; }
         },

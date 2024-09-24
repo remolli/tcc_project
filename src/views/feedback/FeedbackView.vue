@@ -15,7 +15,15 @@
                     </header>
                     <b-row>
                         <b-col class="feedback-container p-0" :style="isMobile? 'height:70vh;' :''">
-                            <main role="contentinfo" id="comments-container" class="comments-container w-100">
+                            <main role="contentinfo" id="comments-container" class="comments-container w-100 h-100">
+                                <div v-if="listComments.length==0" class="h-100 w-100 d-flex justify-content-center align-items-center">
+                                    <h3 class="p-4" style="font-size:24px; min-width:100%;"
+                                    :style="
+                                    isMobile
+                                    ? 'font-size:20px;'
+                                    : 'font-size:24px;'
+                                    "> Seja o primeiro a comentar! </h3>
+                                </div>
                                 <CommentComponent v-for="(item,idx) in listComments" :key="idx"
                                 :isMobile="isMobile" :style="idx==0? 'border:none;' :''"
                                 :stars="Number(item.rating)"
@@ -56,12 +64,16 @@
                                                     <b-form-textarea
                                                     id="inputComment"
                                                     name="inputComment"
+                                                    ref="inputComment"
                                                     type="text"
                                                     :maxlength="225"
                                                     class="textarea-input"
                                                     placeholder="Digite aqui seu comentário..."
                                                     v-model="comment"
                                                     :disabled="loading"
+                                                    :state="comment ? !isBadText : null"
+                                                    :aria-invalid="comment ? isBadText : null"
+                                                    aria-errormessage="errorComment"
                                                     rows="1"
                                                     max-rows="3"
                                                     no-resize
@@ -69,6 +81,9 @@
                                                     :style="comment ? '' : 'height: 46px !important;'"
                                                     >
                                                     </b-form-textarea>
+                                                    <b-form-invalid-feedback id="errorComment" :state="comment ? !isBadText : null" style="text-align:start;">
+                                                        Remova as palavras inapropriadas.
+                                                    </b-form-invalid-feedback>
                                                 </b-form-group>
                                                 <!-- <b-form-textarea
                                                 id="inputComment"
@@ -96,6 +111,7 @@
                                                     class="rating-input"
                                                     v-model="stars"
                                                     :aria-required="true"
+                                                    required
                                                     ></b-form-rating>
                                                 </b-col>
                                                 <b-col align-self="center" style="max-width: 150px;">
@@ -124,6 +140,30 @@ import Utility from '@/utils/Utility';
 import CommentComponent from './components/CommentComponent.vue';
 import axios from 'axios';
 import cookies from '@/plugins/cookies';
+
+const Piii = require("piii");
+const piiiFilters = require("piii-filters");
+const regex = /^[a-zA-Z]+$/;
+const specificFilters = process.env.VUE_APP_TRASH_LIST.split(",").filter(e => regex.test(e));
+const removeAccents = string => string
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, "")
+
+const piii = new Piii({
+    filters: [
+    ...Object.values(piiiFilters),
+    ...specificFilters
+    ],
+    aliases: {
+    a: ["4", "@"],
+    e: ["3", "&"],
+    i: ["1", "l", "|"],
+    o: ["0"]
+    },
+    repeated: true,
+    cleaner: removeAccents,
+});
+
 export default {
     name: 'FeedbackView',
     components:{
@@ -131,7 +171,7 @@ export default {
     },
     data(){
         return {
-            isLogged: false,
+            isLogged: true,
             loading: false,
             listComments: [],
             comment: '',
@@ -147,6 +187,14 @@ export default {
         this.getFeedbacks();
         // this.commentsContainerScrollBottom();
     },
+    computed:{
+        isBadText(){
+            if(this.comment){
+                return piii.has(this.comment);
+            }
+            else return true;
+        },
+    },
     methods:{
         getInstance(){
             const config = { baseURL: process.env.VUE_APP_NT_BASE_URL }
@@ -160,15 +208,34 @@ export default {
                 this.loading=true
                 const instance = this.getInstance();
                 const response = await instance.get('comments')
-                console.log(response);
                 this.listComments = response.data;
+                this.listComments.sort(()=>-1)
             }
             catch(error){
-                Utility.handleError(error)
+                error;
             }
             finally{ this.loading=false; }
         },
+        validateForm(){
+            if(this.isBadText){
+                this.$refs.inputComment.focus();
+                return false;
+            }
+            else return true;
+        },
         async feedback(){
+            if(!this.validateForm()) return;
+            
+            var name = cookies.getUsername();
+            var x = cookies.getOther();
+            var y = Utility.numbers(name);
+            if(x!=y){
+                cookies.deleteToken();
+                cookies.deleteUsername();
+                this.$router.push({name: 'login'});
+                return;
+            }
+
             try{
                 this.loading = true;
 
@@ -180,16 +247,14 @@ export default {
                 }
 
                 const instance = this.getInstance();
-                const response = await instance.post('comments', modal)
-                console.log(response);
+                await instance.post('comments', modal)
 
                 this.comment='';
                 this.stars=0;
-
+                this.getFeedbacks();
                 Utility.successSnackBar("Comentário enviado com sucesso!")
             }
             catch(error){
-                console.log(error);
                 Utility.errorSnackBar("Ocorreu um erro ao enviar o comentário. Tente novamente!")
             }
             finally { this.loading = false; }

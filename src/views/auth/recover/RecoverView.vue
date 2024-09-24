@@ -81,8 +81,7 @@
                         <b-row class="mx-0 mt-4">
                             <b-button @click="$router.push({name: 'login'})" type="button" variant="outline-success" 
                             style="border-radius:8px; padding:10px 0px; background-color:transparent; color:#198754;" :disabled="loading">
-                                <span v-if="loading"><b-spinner small></b-spinner></span>
-                                <span v-else>Voltar</span>
+                                <span>Voltar</span>
                             </b-button>
                         </b-row>
                         <b-row class="mx-0 mt-2">
@@ -99,6 +98,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+import Utility from '@/utils/Utility';
 export default {
     name: 'RecoverView',
     data(){
@@ -122,6 +123,11 @@ export default {
         },
     },
     methods:{
+        getInstance(){
+            const config = { baseURL: process.env.VUE_APP_NT_BASE_URL }
+            const instance = axios.create(config)
+            return instance
+        },
         validateForm(){
             if(!this.isValidEmail){
                 this.$refs.inputEmail.focus();
@@ -137,15 +143,36 @@ export default {
             }
             else return true;
         },
-        nextStep(){
+        async nextStep(){
             if(!this.validateForm()) return;
 
-            const modal = {
-                email: this.email,
-                first: this.first,
-                second: this.second,
+            try{
+                this.loading=true;
+    
+                const instance = this.getInstance();
+    
+                
+                const response = await instance.post('users/recover', {
+                    email: this.email,
+                    firstQuestion: this.first,
+                    secondQuestion: this.second,
+                });
+                const token = response.data.recoverTokenPassword;
+                const modal = {
+                    email: this.email,
+                    first: this.first,
+                    second: this.second,
+                    token: token,
+                }
+    
+                this.$emit('nextStep', modal)
             }
-            this.$emit('nextStep', modal)
+            catch(error){
+                Utility.errorSnackBar("Ocorreu um erro ao validar seus dados. Tente novamente!");
+            }
+            finally{
+                this.loading=false;
+            }
         },
     },
 }

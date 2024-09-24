@@ -90,9 +90,9 @@ export default {
     created(){
         setInterval(()=>{
             if(this.currentRoute != this.$route.name) this.currentRoute = this.$route.name;
+            this.isLogged = !!cookies.getToken();
         }, 250)
         window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
-        this.isLogged = !!cookies.getToken();
     },
     methods: {
         logout(){

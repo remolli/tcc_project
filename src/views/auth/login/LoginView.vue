@@ -60,7 +60,7 @@
                         </b-row>
                         <b-row align-h="between" class="mx-3 mb-3">
                             <b-col class="mt-2 p-0 d-flex" style="min-width:max-content; max-width:max-content;">
-                                <b-checkbox style="max-width:fit-content;">Lembrar de mim</b-checkbox>
+                                <b-checkbox v-model="rememberMe" style="max-width:fit-content;">Lembrar de mim</b-checkbox>
                             </b-col>
                             <div style="width:10px;"></div>
                             <b-col class="mt-2 p-0 d-flex" style="min-width:max-content; max-width:max-content;">
@@ -95,6 +95,7 @@ export default {
             email: '',
             password: '',
             visibility: false,
+            rememberMe: false,
         }
     },
     created(){
@@ -142,18 +143,19 @@ export default {
                 const instance = this.getInstance();
 
                 var model = {
-                    userName: this.email,
+                    userEmail: this.email,
                     password: this.password,
                 }
                 
                 const response = await instance.post('auth/login', model)
                 if(response.data.token) cookies.setToken('Bearer ' + response.data.token)
                 if(response.data.userName) cookies.setUsername(response.data.userName)
+                if(this.rememberMe) cookies.setEmail(response.data.userEmail)
+                
 
                 Utility.successSnackBar("Login realizado com sucesso", null, ()=>{ this.$router.go() })
             }
             catch(error){
-                console.log(error);
                 if(error?.response?.status==400)
                     Utility.errorSnackBar("E-mail e/ou senha não coincidem!")
                 else

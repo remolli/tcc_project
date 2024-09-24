@@ -12,6 +12,8 @@
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
     "js-cookie": "^3.0.5",
+    "piii": "^4.0.2",
+    "piii-filters": "^1.0.0",
     "sweetalert2": "^11.12.1",
     "vue": "^2.7.16",
     "vue-router": "^3.5.1",

@@ -1,13 +1,16 @@
+import Utility from '@/utils/Utility';
 import Cookie from 'js-cookie';
 
 const KEY = '_list_tags_';
 const TOKEN = '_nt_token_';
 const USERKEY = '_nt_username_';
+const EMAILKEY = '_nt_email_';
+const OTHERKEY = '_nt_test';
 
 export default {
     setToken(value) {
         try{
-            Cookie.set(TOKEN, value);
+            Cookie.set(TOKEN, value, 1);
             return true;
         } catch(error){ return false; }
     },
@@ -20,15 +23,34 @@ export default {
 
     setUsername(value) {
         try{
-            Cookie.set(USERKEY, value);
+            var result = Utility.numbers(new String(value))
+            Cookie.set(USERKEY, value, 1);
+            Cookie.set(OTHERKEY, result, 1);
             return true;
         } catch(error){ return false; }
     },
     getUsername() {
         return Cookie.get(USERKEY);
     }, 
+    getOther() {
+        return Cookie.get(OTHERKEY);
+    }, 
     deleteUsername() {
+        Cookie.remove(OTHERKEY);
         return Cookie.remove(USERKEY);
+    }, 
+
+    setEmail(value) {
+        try{
+            Cookie.set(EMAILKEY, value, 1);
+            return true;
+        } catch(error){ return false; }
+    },
+    getEmail() {
+        return Cookie.get(EMAILKEY);
+    }, 
+    deleteEmail() {
+        return Cookie.remove(EMAILKEY);
     }, 
 
     set(value) {

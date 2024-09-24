@@ -90,6 +90,9 @@ import Utility from '@/utils/Utility';
 import axios from 'axios';
 export default {
     name: 'PasswordView',
+    props: {
+        user: Object,
+    },
     data(){
         return {
             loading: false,
@@ -138,10 +141,18 @@ export default {
 
             try{
                 this.loading = true;
+
+                const instance = this.getInstance();
+                
+                await instance.put('users/recover/second', {
+                    email: this.user.email,
+                    recoverPasswordToken: this.user.token,
+                    password: this.password,
+                });
+
                 Utility.successSnackBar("Nova senha atualizada com sucesso!", null, ()=>{ this.$router.push("/login") });
             }
             catch(error){
-                console.log(error);
                 Utility.errorSnackBar("Ocorreu um erro ao atualizar sua senha. Tente novamente!");
             }
             finally { this.loading = false; }

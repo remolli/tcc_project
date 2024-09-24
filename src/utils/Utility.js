@@ -1,14 +1,11 @@
-const Swal = require('sweetalert2')
+import Cookies from 'js-cookie';
+const Swal = require('sweetalert2');
+
 class Utility {
     static handleError(error){
-        console.log('----Ocorreu um erro----')
-        console.log(error);
-        // console.log(error)
-        // let errorMessage = msg || i18n.t('general.error');
-        // if (error.response && error.response.data && error.response.data.message) {
-        //     errorMessage = error.response.data.message;
-        // }
-        this.errorSnackBar('Ops! Ocorreu um erro, Tente novamente');
+        if(error?.response?.status==401)
+            Cookies.deleteToken();
+        else this.errorSnackBar('Ops! Ocorreu um erro, Tente novamente');
     }
     static questionSnackBar(message, then){
         Swal.fire({
@@ -55,6 +52,16 @@ class Utility {
             },
             backdrop: true,
         });
+    }
+    static numbers(value){
+        const list = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+        var sum = Number(value.replace(/\D/g, ''));
+        value.split('').forEach(l=>{
+            var idx = list.findIndex(x=>x==l);
+            sum+=idx;
+        })
+        sum = sum * Number(process.env.VUE_APP_NUMBER)
+        return sum;
     }
 }
 export default Utility;

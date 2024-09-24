@@ -14,9 +14,10 @@
                         </b-row>
                     </header>
                     <b-row>
-                        <b-col class="feedback-container p-0" :style="isMobile? 'height:70vh;' :''">
+                        <b-col class="feedback-container p-0" :style="isMobile? 'height:70vh;' :'width:80n--'">
                             <main role="contentinfo" id="comments-container" class="comments-container w-100 h-100">
-                                <div v-if="listComments.length==0" class="h-100 w-100 d-flex justify-content-center align-items-center">
+                            <b-overlay :show="loading" bg-color="white" class="h-100">
+                                <div v-if="listComments.length==0 && !loading" class="h-100 w-100 d-flex justify-content-center align-items-center">
                                     <h3 class="p-4" style="font-size:24px; min-width:100%;"
                                     :style="
                                     isMobile
@@ -39,8 +40,8 @@
                                 :text="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur libero augue, at porttitor massa ultricies a. Donec eu mollis elit, vitae sagittis turpis. Cras pellentesque tristique tempor. Praesent ac elit nec urna.'"
                                 /> -->
                                 <!-- :text="'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin efficitur libero augue, at porttitor massa ultricies a. Donec eu mollis elit, vitae sagittis turpis. Cras pellentesque tristique tempor. Praesent ac elit nec urna malesuada ultricies nec non libero. Pellentesque placerat congue sagittis. In quam dui, lacinia eu quam et, cursus sollicitudin ante.'" -->
+                            </b-overlay>
                             </main>
-
                             <fieldset role="form" style="width:100%">
                                 <b-overlay :show="!isLogged" bg-color="black"
                                 style="

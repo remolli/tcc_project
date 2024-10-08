@@ -6,8 +6,11 @@
             <b-col :class="isMobile ? 'my-4' : 'mx-4'">
                 <div v-if="type=='popular'" class="w-100 h-100">
                     <img 
-                    :src="image.url" 
+                    :src="image.url"
+                    width="400"
+                    height="350"
                     alt="Imagem da notícia"
+                    loading="lazy"
                     :style="{
                         'width': '100%',
                         'min-width': isMobile ? '250px' : '300px',
@@ -21,10 +24,12 @@
                     </b-row>
                 </div>
                 <div v-else-if="type=='search'" class="w-100 h-100">
-                        <!-- 'max-height': '300px', -->
                     <img 
-                    :src="image.url" 
+                    :src="image.url"
+                    width="400"
+                    height="350"
                     alt="Imagem da notícia"
+                    loading="lazy"
                     :style="{
                         'width': '100%',
                         'min-width': isMobile ? '250px' : '300px',
@@ -35,7 +40,6 @@
                     }">
                 </div>
             </b-col>
-            <!-- <div v-if="!isMobile" style="width:20px;"></div> -->
             <b-col class="d-flex flex-column align-items-start justify-content-between"
             :style="'min-width:' + (isMobile ? 325 : 400) + 'px;'">
                 <div class="px-3">
@@ -46,13 +50,6 @@
                     :class="isMobile ? 'article-abstract-mobile' : 'article-abstract'"
                     > {{ ( lead_paragraph?.length > abstract?.length ? lead_paragraph : abstract ) || '---' }}  </span>
                 </div>
-                <!-- <b-row class="article_content"> Lead Paragraph:  {{ lead_paragraph || '---' }}  </b-row>
-                <b-row class="article_content"> Section:  {{ section || '---' }}  </b-row>
-                <b-row class="article_content"> Subsection:  {{ subsection || '---' }}  </b-row>
-                <b-row class="article_content"> {{ writtenBy || '---' }}  </b-row>
-                <b-row class="article_content"> Published at:  {{ publishDate || '---' }}  </b-row>
-                <b-row class="article_content"> Last updated at:  {{ lastEditDate || '---' }}  </b-row> -->
-                <!-- <b-row class="article_content"> Url:  {{ url || '---' }}  </b-row> -->
                 <b-row class="article_content w-100 mt-3 mx-0" align-h="between">
                     <b-col style="max-width: max-content;">
                         <b-badge v-if="section || subsection" 
@@ -61,7 +58,6 @@
                             'font-size': isMobile ? '16px' : '18px',
                             'color': '#454545',
                         }">
-                            <!-- 'box-shadow': '0px 0px 2px #00000070', -->
                             {{ section || subsection}}
                         </b-badge>
                     </b-col>

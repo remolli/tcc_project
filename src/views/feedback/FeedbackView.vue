@@ -225,7 +225,7 @@ export default {
             else return true;
         },
         async feedback(){
-            if(!this.validateForm()) return;
+            if(!this.validateForm() || !this.isLogged) return;
             
             var name = cookies.getUsername();
             var x = cookies.getOther();
@@ -253,7 +253,7 @@ export default {
                 this.comment='';
                 this.stars=0;
                 this.getFeedbacks();
-                Utility.successSnackBar("Comentário enviado com sucesso!")
+                Utility.successSnackBar("Comentário enviado com sucesso.")
             }
             catch(error){
                 Utility.errorSnackBar("Ocorreu um erro ao enviar o comentário. Tente novamente!")

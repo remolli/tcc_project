@@ -3,9 +3,7 @@
     
     <header role="banner">
       <b-row class="m-0 pb-3 h-100" align-v="center" align-h="between"
-      :style=" 
-      filteredItems.length==0 ? ''
-      : isMobile 
+      :style="isMobile 
       ? 'padding-top:125px;'
       : 'margin:0px 80px; padding-top:125px;'"
       :cols="isMobile ? 1 : null"
@@ -16,7 +14,7 @@
         ? 'width:100%;'
         : 'min-width:700px; width:100%'
         ">
-          <h1 
+          <h1
           :style="isMobile
           ? 'font-size:38px; font-weight:600; letter-spacing:-2.5px; text-align:center;'
           : 'font-size:80px; font-weight:600; letter-spacing:-6px; text-align:start;'
@@ -31,16 +29,13 @@
       </b-row>
     </header>
 
-    <div class="my-4 div-nav-tab" :style="isMobile ? 'border-radius:0px;' : ''"
-    @mouseover="pauseScroll" @mouseleave="resumeScroll" ref="navbar">
+    <div class="my-4 div-nav-tab" :style="isMobile ? 'border-radius:0px;' : ''" ref="navbar">
       <nav role="navigation" style="padding:0px;">
         <NavTabComponent
         :isMobile="isMobile"
         :category="category"
         :list="listTags.length>0 ? listCategory : listCategory.filter(e=>e.en!='Recommended')"
         @change="changeCategory"
-        @focus="pauseScroll"
-        @blur="resumeScroll"
         />
       </nav>
     </div>  
@@ -48,6 +43,11 @@
 
     <b-col v-if="renderComponent" style="width:100%;" align-self="center" role="tabpanel" :aria-labelledby="category.pt">
       <main role="main" class="p-0 px-1">
+        <div v-if="filteredItems.length==0">
+          <b-row v-for="(item,idx) in [0,0,0]" :key="idx" class="m-0" align-h="center">
+            <BlankArticleComponent :isMobile="isMobile"/>
+          </b-row>
+        </div>
         <b-row v-for="(item,idx) in filteredItems" :key="idx" class="m-0" align-h="center">
           <ArticleComponent :isMobile="isMobile"
           v-if="queryItems.length>0"
@@ -62,7 +62,6 @@
           :lastEditDate="item.updated"
           :image="item.image"
           :url="item.web_url"
-          @focus=handleUserScroll
           />
           <ArticleComponent :isMobile="isMobile"
           v-else
@@ -76,7 +75,6 @@
           :lastEditDate="item.updated"
           :image="item.image"
           :url="item.url"
-          @focus=handleUserScroll
           />
         </b-row>
       </main>
@@ -85,24 +83,19 @@
 </template>
 
 <script>
-import ArticleComponent from './ArticleComponent.vue';
-import NavTabComponent from './NavTabComponent.vue';
 import Cookies from '@/plugins/cookies';
 export default {
   name: 'HomeView',
   components: {
-    ArticleComponent,
-    NavTabComponent,
+    ArticleComponent: () => import('./ArticleComponent.vue'),
+    BlankArticleComponent: () => import('./BlankArticleComponent.vue'),
+    NavTabComponent: () => import('./NavTabComponent.vue'),
   },
   data(){
     return {
       renderComponent: true,
       loading: false,
       isMobile: window.innerWidth<720,
-      isScrolling: true,
-      scrollInterval: null,
-      userScrollTimeout: null,
-      scrollSpeed: 1,
       listTags: [],
       copyright: null,
       items: [],
@@ -155,14 +148,7 @@ export default {
         return this.items;
     },
   },
-  mounted() {
-    this.startAutoScroll();
-  },
-  beforeDestroy() {
-    clearInterval(this.scrollInterval);
-  },
-  async created(){
-    window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
+  mounted(){
     this.listTags = Cookies.get() || [];
     if(this.listTags.length){
       this.category = { 
@@ -171,7 +157,8 @@ export default {
       };
       this.loadRecommended();
     }
-    else await this.loadData(30);
+    else this.loadData(30);
+    window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
   },
   methods: {
     async forceRender(){
@@ -186,7 +173,6 @@ export default {
       else if(this.category.en=="Recommended") this.loadRecommended(true);
       else this.search(value.en, false, true);
       this.scrollTop();
-      
     },
 
     async loadRecommended(selected=false){
@@ -204,8 +190,10 @@ export default {
         this.copyright = response.data.copyright;
         this.items = response.data.results.filter(e=>e.media[0]?.['media-metadata']?.length>0);
         this.items.forEach(e=>e.image=e.media[0]?.['media-metadata']?.[2]);
-        await this.forceRender();
-        if(selected) this.focusFirstArticle();
+        if(selected){
+          await this.forceRender();
+          this.focusFirstArticle();
+        }
       }
       catch(error){
         console.log(error);
@@ -224,8 +212,10 @@ export default {
         });
         if(join) this.queryItems.push(...filtered);
         else this.queryItems = filtered;
-        await this.forceRender();
-        if(selected) this.focusFirstArticle();
+        if(selected){
+          await this.forceRender();
+          this.focusFirstArticle();
+        }
       }
       catch(error){
         error;
@@ -235,43 +225,6 @@ export default {
     focusFirstArticle(){
       const link = document.querySelector('article a');
       if(link) link.focus();
-    },
-
-    startAutoScroll() {
-      this.scrollInterval = setInterval(() => {
-        if (this.isScrolling) {
-          const navbar = this.$refs.navbar;
-          navbar.scrollBy({
-            left: this.scrollSpeed,
-            behavior: 'smooth'
-          });
-
-          if (navbar.scrollLeft + navbar.clientWidth + 10 >= navbar.scrollWidth) {
-            this.pauseScroll()
-            navbar.scrollTo({ left: 0, behavior: 'smooth' });
-            setTimeout(() => {
-              this.resumeScroll();
-            }, 1000)
-          }
-        }
-      }, 50);
-    },
-    pauseScroll() {
-      this.isScrolling = false;
-    },
-    resumeScroll() {
-      this.isScrolling = true;
-    },
-    handleUserScroll() {
-      this.pauseScroll();
-
-      // Limpa o timeout anterior se o usuário continuar interagindo
-      clearTimeout(this.userScrollTimeout);
-
-      // Define um timeout para retomar o scroll automático após 2 segundos sem interação
-      this.userScrollTimeout = setTimeout(() => {
-        this.resumeScroll();
-      }, 2000); // Ajuste esse tempo conforme necessário
     },
     scrollTop(){
       window.scrollTo({
@@ -310,15 +263,15 @@ export default {
   border-color: #E1E1E3;
   background-color: #E1E1E3;
 }
-
 .div-nav-tab{
+  border-radius:20px;
   max-width:100vw;
   overflow:auto;
   position:sticky;
-  top:105px;
+  /* top:105px; */
+  top:75px;
   z-index:2;
   box-shadow: 0px 0px 20px #00000050;
-  border-radius:20px;
   scroll-behavior: smooth;
 } 
 /* .div-nav-tab::-webkit-scrollbar {

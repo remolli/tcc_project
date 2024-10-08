@@ -13,7 +13,9 @@ class Utility {
             title: message,
             icon: "question",
             showConfirmButton: true,
+            confirmButtonText: "OK",
             showCancelButton: true,
+            cancelButtonText: "Cancelar",
             customClass: {
                 popup: 'custom-swal-popup',
                 title: 'custom-swal-title',

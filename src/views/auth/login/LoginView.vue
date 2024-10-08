@@ -153,10 +153,10 @@ export default {
                 if(this.rememberMe) cookies.setEmail(response.data.userEmail)
                 
 
-                Utility.successSnackBar("Login realizado com sucesso", null, ()=>{ this.$router.go() })
+                Utility.successSnackBar("Login realizado com sucesso.", null, ()=>{ this.$router.go() })
             }
             catch(error){
-                if(error?.response?.status==400)
+                if(error?.response?.status==404)
                     Utility.errorSnackBar("E-mail e/ou senha não coincidem!")
                 else
                     Utility.errorSnackBar("Ocorreu um erro ao realizar o login. Tente novamente!")

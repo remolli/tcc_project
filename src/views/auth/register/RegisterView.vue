@@ -145,7 +145,8 @@ const removeAccents = string => string
 const piii = new Piii({
     filters: [
     ...Object.values(piiiFilters),
-    ...specificFilters
+    ...specificFilters,
+    'admin', 'administrador'
     ],
     aliases: {
     a: ["4", "@"],

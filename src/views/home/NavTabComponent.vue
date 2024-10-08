@@ -1,9 +1,7 @@
 <template>
     <b-row role="tablist" class="nav-category m-0" align-h="between" :style="isMobile ? 'border-radius:0px;' : ''">
         <b-button v-for="item,idx in list" :key="idx+item.en"
-        @click="$emit('change', item)" variant="light" role="tab" :aria-label="item.pt" 
-        @focus="$emit('focus')"
-        @blur="$emit('blur')"
+        @click="$emit('change', item)" variant="light" role="tab" :aria-label="item.pt"
         :aria-selected="String(category.en==item.en)"
         class="py-2"
         :class="category.en==item.en ? 'nav-desktop-button-active' : ''"

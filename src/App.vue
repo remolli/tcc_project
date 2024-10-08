@@ -38,7 +38,7 @@ export default {
     setTimeout(()=>{
       var isEmpty = document.getElementById('google_translate_element').innerHTML === "";
         if(isEmpty) this.$router.go();
-    }, 1250)
+    }, 2250)
     setInterval(()=>{
         if(this.currentRoute != this.$route.name) this.currentRoute = this.$route.name; 
     }, 250)
@@ -65,19 +65,20 @@ export default {
             element.setAttribute('translate', 'yes');
           }
         });
+        
         const fonts = document.querySelectorAll('font');
         fonts.forEach(element => {
           element.removeAttribute('class');
         });
-        const body = document.querySelectorAll('body');
-          body.forEach(e => {
-              e.style.top = '0px';
-          });
+        
+        const body = document.body;
+        body.style.top = '0px';
+
         const el = document.querySelectorAll('*');
-          el.forEach(e => {
-              if(e.classList.contains('skiptranslate'))
-               e.style.display = 'none';
-          });
+        el.forEach(e => {
+            if(e.classList.contains('skiptranslate'))
+              e.style.display = 'none';
+        });
       }, 0)
     },
   }
@@ -105,6 +106,7 @@ export default {
 
 * {
   font-family: "Inter", sans-serif !important;
+  font-display: swap;
 }
 
 button:focus-visible,

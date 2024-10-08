@@ -150,7 +150,7 @@ export default {
                     password: this.password,
                 });
 
-                Utility.successSnackBar("Nova senha atualizada com sucesso!", null, ()=>{ this.$router.push("/login") });
+                Utility.successSnackBar("Nova senha atualizada com sucesso.", null, ()=>{ this.$router.push("/login") });
             }
             catch(error){
                 Utility.errorSnackBar("Ocorreu um erro ao atualizar sua senha. Tente novamente!");

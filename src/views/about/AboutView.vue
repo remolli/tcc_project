@@ -1,5 +1,5 @@
 <template>
-    <main role="main" id="about" class="d-flex" :style="isMobile? 'flex-direction:row; overflow-y:hidden;' :'margin-top:70px;'">
+    <main role="main" id="about" class="d-flex" :style="isMobile? 'flex-direction:column; overflow-x:hidden;' :'margin-top:70px;'">
         <AboutSection :backgroundColor="'#BDE3CA'"
         :isMobile="isMobile"
         title="Sobre nós"

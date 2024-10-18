@@ -104,7 +104,11 @@ export default {
             cookies.add(section);
 
             setTimeout(() => {
-                window.location.href = url;
+                // window.location.href = url;
+                const link = document.createElement('a');
+                link.href = url;
+                link.target = '_blank';
+                link.click();
             }, 500);
         },
         scrollIntoView() {

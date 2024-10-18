@@ -6,8 +6,6 @@
 
       <router-view/>
 
-      <div id="google_translate_element"></div>
-      
       <FooterComponent v-if="currentRoute=='home'"
       style="width:100vw !important;"
       :text="copyright"/>
@@ -31,32 +29,11 @@ export default {
   },
   mounted(){
     this.translateConfigs();
-    setTimeout(()=>{
-      this.googleTranslateElementInit();
-      this.doTranslate();
-    },1000);
-    setTimeout(()=>{
-      var isEmpty = document.getElementById('google_translate_element').innerHTML === "";
-        if(isEmpty) this.$router.go();
-    }, 2250)
     setInterval(()=>{
         if(this.currentRoute != this.$route.name) this.currentRoute = this.$route.name; 
     }, 250)
   },
   methods:{
-    googleTranslateElementInit() {
-      new window.google.translate.TranslateElement({
-        pageLanguage: 'en',
-      }, 'google_translate_element');
-    },
-    doTranslate(){
-      var select = document.querySelector('select.goog-te-combo');
-      if (select) {
-        select.value = 'pt';
-        select.id = 'google-translate-widget';
-        select.dispatchEvent(new Event('change'));
-      }
-    },
     translateConfigs() {
       setInterval(()=>{
         const allElements = document.querySelectorAll('*');
@@ -87,22 +64,6 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-
-#google_translate_element{
-  /* position: absolute;
-  top:5px;
-  right:0px; */
-  z-index: 2;
-}
-.goog-te-combo{
-  padding:5px;
-  border-radius:5px;
-  border-color: #ccc;
-}
-/* .goog-te-combo option:not([value='en']):not([value='es']):not([value='pt']):not([value='ar']):not([value='fr']) { */
-.goog-te-combo option:not([value='en']):not([value='pt']) {
-  display: none;
-}
 
 * {
   font-family: "Inter", sans-serif !important;

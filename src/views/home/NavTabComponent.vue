@@ -3,7 +3,7 @@
         <b-button v-for="item,idx in list" :key="idx+item.en"
         @click="$emit('change', item)" variant="light" role="tab" :aria-label="item.pt"
         :aria-selected="String(category.en==item.en)"
-        class="py-2"
+        class="py-2 mx-2"
         :class="category.en==item.en ? 'nav-desktop-button-active' : ''"
         style="max-width:max-content;"
         >{{ item.pt }}</b-button>
@@ -26,7 +26,7 @@ export default {
     background-color: #BAF1AB;
     padding:10px 20px;
     border-radius:20px;
-    min-width: 1000px;
+    min-width: max-content;
     overflow: auto;
 }
 .nav-button-link{

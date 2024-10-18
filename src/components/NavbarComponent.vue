@@ -52,22 +52,16 @@
                 <b-button v-if="isLogged" variant="light" class="py-2 d-flex align-items-center" @click="logout"
                 style="max-height:45px;">
                     Logout
-                    <!-- <div style="width:5px;"></div>
-                    <b-icon icon="box-arrow-right"></b-icon> -->
                 </b-button>
                 <div v-else class="d-flex p-0 align-items-center">
                     <b-button role="link" variant="light" class="py-2" @click="$router.push({name: 'login'})"
                     :class="currentRoute=='login'? 'nav-desktop-button-active' : ''" style="max-height:45px;">
                         Login
-                        <!-- <div style="width:5px;"></div>
-                        <b-icon icon="box-arrow-right"></b-icon> -->
                     </b-button>
                     <div style="width:10px;"></div>
                     <b-button role="link" variant="light" class="py-2" @click="$router.push({name: 'register'})"
                     :class="currentRoute=='register'? 'nav-desktop-button-active' : ''" style="max-height:45px;">
                         Cadastre-se
-                        <!-- <div style="width:5px;"></div>
-                        <b-icon icon="box-arrow-right"></b-icon> -->
                     </b-button>
                 </div>
             </div>

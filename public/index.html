@@ -4,7 +4,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <!-- <link rel="icon" href="<%= BASE_URL %>favicon.ico"> -->
     <link rel="icon" href="<%= BASE_URL %>logo.png">
     <title>Notícias para Todos</title>
     
@@ -12,22 +11,31 @@
     <link href="https://unpkg.com/bootstrap-vue@2.16.0/dist/bootstrap-vue.css" rel="stylesheet"/>
     <script src="https://unpkg.com/bootstrap-vue@2.16.0/dist/bootstrap-vue.js" defer></script>
 
-    <script type="text/javascript">
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement(
-          { pageLanguage: 'en', autoDisplay: false },
-          'app'
-        );
-      }
+    <!-- DESCRIPTION TAG -->
+    <meta name="description" content="Notícias para Todos é um portal de notícias dedicado a fornecer informações acessíveis e inclusivas para todas as pessoas, independentemente de suas habilidades físicas, sensoriais ou cognitivas.">
+    <!-- META TAGS SEARCH -->
+    <meta name="robots" content="index, follow">
+    <!-- META TAGS SOCIAL MEDIA -->
+    <meta property="og:title" content="Notícias para Todos" />
+    <meta property="og:description" content="Notícias para Todos é um portal de notícias dedicado a fornecer informações acessíveis e inclusivas para todas as pessoas, independentemente de suas habilidades físicas, sensoriais ou cognitivas.">
+    <meta property="og:url" content="<%= BASE_URL %>" />
+    <meta property="og:image" content="<%= BASE_URL %>logo.png" />
+    <meta property="og:type" content="website" />
+    <!-- META TAGS TWITTER -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Notícias para Todos">
+    <meta name="twitter:description" content="Notícias para Todos é um portal de notícias dedicado a fornecer informações acessíveis e inclusivas para todas as pessoas, independentemente de suas habilidades físicas, sensoriais ou cognitivas." />
+    <meta name="twitter:site" content="<%= BASE_URL %>" />
+    <meta name="twitter:image" content="<%= BASE_URL %>logo.png" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6E72PRRTQL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-6E72PRRTQL');
     </script>
-    <script
-      type="text/javascript"
-      src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdn.jsdelivr.net/gh/lewis-kori/vue-google-translate@main/src/utils/translatorRegex.js"
-    ></script>
 
   </head>
   <body style="overflow-x: hidden;">

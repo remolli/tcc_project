@@ -44,7 +44,7 @@
     <b-col v-if="renderComponent" style="width:100%;" align-self="center" role="tabpanel" :aria-labelledby="category.pt">
       <main role="main" class="p-0 px-1">
         <div v-if="filteredItems.length==0">
-          <b-row v-for="(item,idx) in [0,0,0]" :key="idx" class="m-0" align-h="center">
+          <b-row v-for="(item,idx) in [0,0,0,0,0,0,0,0,0,0,0]" :key="idx" class="m-0" align-h="center">
             <BlankArticleComponent :isMobile="isMobile"/>
           </b-row>
         </div>
@@ -150,14 +150,15 @@ export default {
   },
   mounted(){
     this.listTags = Cookies.get() || [];
-    if(this.listTags.length){
-      this.category = { 
-        pt: 'Recomendados', 
-        en: 'Recommended'
-      };
-      this.loadRecommended();
-    }
-    else this.loadData(30);
+    // if(this.listTags.length){
+    //   this.category = { 
+    //     pt: 'Recomendados', 
+    //     en: 'Recommended'
+    //   };
+    //   this.loadRecommended();
+    // }
+    // else 
+      this.loadData(30);
     window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
   },
   methods: {
@@ -186,18 +187,16 @@ export default {
       try{
         this.queryItems=[];
         this.loading = true;
-        const response = await this.$axios.get('mostpopular/v2/emailed/'+period+'.json?'+this.authParam);
+        const response = await this.$axios.get('mostpopular/v2/viewed/'+period+'.json?'+this.authParam);
         this.copyright = response.data.copyright;
-        this.items = response.data.results.filter(e=>e.media[0]?.['media-metadata']?.length>0);
+        this.items = response.data.results.filter(e=>e.media[0]?.['media-metadata']?.length>0).splice(0, 10);
         this.items.forEach(e=>e.image=e.media[0]?.['media-metadata']?.[2]);
         if(selected){
           await this.forceRender();
           this.focusFirstArticle();
         }
       }
-      catch(error){
-        console.log(error);
-      }
+      catch(error){error;}
       finally { this.loading = false; }
     },
     async search(value, join=false, selected=false){
@@ -210,8 +209,11 @@ export default {
           e.image = e.multimedia.find(image=>image.subtype=='xlarge');
           e.image.url = "https://www.nytimes.com/" + e.image.url;
         });
-        if(join) this.queryItems.push(...filtered);
-        else this.queryItems = filtered;
+        var tempList = [];
+        if(join) tempList.push(...filtered);
+        else tempList = filtered;
+        tempList.sort(Math.round(Math.random())-0.5);
+        this.queryItems = tempList.splice(0, 10)
         if(selected){
           await this.forceRender();
           this.focusFirstArticle();

@@ -57,7 +57,7 @@
                             </b-form-group>
                         </b-row>
                         <b-row class="mx-0 mt-4">
-                            <b-button @click="backStep" type="button" variant="success" style="border-radius:8px; padding:10px 0px; background-color:transparent; color:#198754;" :disabled="loading">
+                            <b-button @click="backStep" type="button" variant="outline-dark" style="border-radius:8px; padding:10px 0px;" :disabled="loading">
                                 <span>Voltar</span>
                             </b-button>
                         </b-row>

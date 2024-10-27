@@ -3,7 +3,7 @@
         <AboutSection :backgroundColor="'#BDE3CA'"
         :isMobile="isMobile"
         title="Sobre nós"
-        text="Notícia para Todos é um portal de notícias dedicado a fornecer informações acessíveis e inclusivas para todas as pessoas, independentemente de suas habilidades físicas, sensoriais ou cognitivas."
+        text="Notícias para Todos é um portal de notícias dedicado a fornecer informações acessíveis e inclusivas para todas as pessoas, independentemente de suas habilidades físicas, sensoriais ou cognitivas."
         name="Evandro Remolli"
         func="Desenvolvedor Front-End"
         />

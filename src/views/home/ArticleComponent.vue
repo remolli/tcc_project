@@ -149,4 +149,11 @@ export default {
     font-weight: 400;
     line-height: 24px;
 }
+
+* /deep/ a {
+    color: #0040ff;
+}
+* /deep/ a:hover {
+    color: #0032c8;
+}
 </style>

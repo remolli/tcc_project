@@ -13,7 +13,7 @@
                             </h1>
                         </b-row>
                     </header>
-                    <fieldset role="form">
+                    <fieldset role="group">
                         <b-row>
                             <b-form-group label="E-mail" label-for="inputEmail" label-align="start">
                                 <b-form-input
@@ -79,8 +79,8 @@
                             </b-form-group>
                         </b-row>
                         <b-row class="mx-0 mt-4">
-                            <b-button @click="$router.push({name: 'login'})" type="button" variant="outline-success" 
-                            style="border-radius:8px; padding:10px 0px; background-color:transparent; color:#198754;" :disabled="loading">
+                            <b-button @click="$router.push({name: 'login'})" type="button" variant="outline-dark" 
+                            style="border-radius:8px; padding:10px 0px;" :disabled="loading">
                                 <span>Voltar</span>
                             </b-button>
                         </b-row>

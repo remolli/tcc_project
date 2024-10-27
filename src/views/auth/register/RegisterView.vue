@@ -13,7 +13,7 @@
                             </h1>
                         </b-row>
                     </header>
-                    <fieldset role="form">
+                    <fieldset role="group">
                         <b-row>
                             <b-form-group label="Nome de usuário" label-for="inputUsername" label-align="start">
                                 <b-form-input

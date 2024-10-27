@@ -13,7 +13,7 @@
                             </h1>
                         </b-row>
                     </header>
-                    <fieldset role="form">
+                    <fieldset role="group">
                         <b-row class="mx-0">
                             <b-form-group label="E-mail" label-for="inputEmail" label-align="start">
                                 <b-form-input
@@ -64,9 +64,9 @@
                             </b-col>
                             <div style="width:10px;"></div>
                             <b-col class="mt-2 p-0 d-flex" style="min-width:max-content; max-width:max-content;">
-                                <b-button role="link" variant="link" @click="$router.push({name: 'recover'})" style="max-width:fit-content; padding:0px;">
+                                <b-link @click="$router.push({name: 'recover'})" style="max-width:fit-content; padding:0px;">
                                     Esqueceu sua senha?
-                                </b-button>
+                                </b-link>
                             </b-col>
                         </b-row>
                         <b-row class="mx-3" :class="isMobile ? 'pt-3' : 'pt-4'">
@@ -176,5 +176,12 @@ export default {
     width:100%; */
     background-color: #F1FFFA;
     padding: 20px;
+}
+
+* /deep/ a {
+    color: #0040ff;
+}
+* /deep/ a:hover {
+    color: #0032c8;
 }
 </style>

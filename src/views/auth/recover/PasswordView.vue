@@ -13,7 +13,7 @@
                             </h1>
                         </b-row>
                     </header>
-                    <fieldset role="form">
+                    <fieldset role="group">
                         <b-row>
                             <b-form-group label="Nova Senha" label-for="inputPassword" label-align="start">
                                 <b-input-group>

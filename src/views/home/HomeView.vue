@@ -97,7 +97,6 @@ export default {
       loading: false,
       isMobile: window.innerWidth<720,
       listTags: [],
-      copyright: null,
       items: [],
       queryItems: [],
       query: '',
@@ -158,7 +157,7 @@ export default {
     //   this.loadRecommended();
     // }
     // else 
-      this.loadData(30);
+    this.loadData(30);
     window.addEventListener('resize', () => this.isMobile = window.innerWidth<720 );
   },
   methods: {
@@ -178,7 +177,8 @@ export default {
 
     async loadRecommended(selected=false){
       this.listTags = Cookies.get() || [];
-      this.listTags.forEach(tag =>{
+      var temp = [...this.listTags].reverse();
+      temp.forEach(tag =>{
         this.search(tag, true, selected);
       });
     },
@@ -188,22 +188,21 @@ export default {
         this.queryItems=[];
         this.loading = true;
         const response = await this.$axios.get('mostpopular/v2/viewed/'+period+'.json?'+this.authParam);
-        this.copyright = response.data.copyright;
-        this.items = response.data.results.filter(e=>e.media[0]?.['media-metadata']?.length>0).splice(0, 10);
+        this.items = response.data.results.filter(e=>e.media[0]?.['media-metadata']?.length>0)
+        // this.items = response.data.results.filter(e=>e.media[0]?.['media-metadata']?.length>0).splice(0, 10);
         this.items.forEach(e=>e.image=e.media[0]?.['media-metadata']?.[2]);
         if(selected){
-          await this.forceRender();
           this.focusFirstArticle();
         }
+        await this.forceRender();
       }
-      catch(error){error;}
+      catch(error){ error; }
       finally { this.loading = false; }
     },
     async search(value, join=false, selected=false){
       try{
         this.loading = true;
         const response = await this.$axios.get('search/v2/articlesearch.json?q='+(value || this.query)+'&sort='+this.sort+'&facet='+true+'&'+this.authParam);
-        this.copyright = response.data.copyright;
         var filtered = response.data.response.docs.filter(e=>e.multimedia.length>0);
         filtered.forEach(e=>{
           e.image = e.multimedia.find(image=>image.subtype=='xlarge');
@@ -212,16 +211,15 @@ export default {
         var tempList = [];
         if(join) tempList.push(...filtered);
         else tempList = filtered;
-        tempList.sort(Math.round(Math.random())-0.5);
-        this.queryItems = tempList.splice(0, 10)
+        tempList.sort(() => Math.random() - 0.5);
+        this.queryItems = tempList
+        // this.queryItems = tempList.splice(0, 10)
         if(selected){
-          await this.forceRender();
           this.focusFirstArticle();
         }
+        await this.forceRender();
       }
-      catch(error){
-        error;
-      }
+      catch(error){ error; }
       finally { this.loading = false; }
     },
     focusFirstArticle(){

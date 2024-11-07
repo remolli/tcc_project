@@ -23,7 +23,7 @@ export default {
 
 <style scoped>
 .nav-category{
-    background-color: #BAF1AB;
+    background-color: #bff0b2;
     padding:10px 20px;
     border-radius:20px;
     min-width: max-content;

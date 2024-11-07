@@ -52,13 +52,13 @@ export default {
 }
 .about-title{
     max-width: 600px;
-    font-size:22px;
+    font-size:26px;
     font-weight: 600;
     text-align: center;
 }
 .about-text{
     max-width: 600px;
-    font-size:18px;
+    font-size: 20px;
     font-weight: 400;
     text-align: center;
 }

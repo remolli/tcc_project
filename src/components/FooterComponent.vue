@@ -33,7 +33,7 @@ export default {
     left:0px;
 }
 .footer{
-    background-color: #BAF1AB;
+    background-color: #bff0b2;
     display: flex;
     align-items: center;
     justify-content: space-between;

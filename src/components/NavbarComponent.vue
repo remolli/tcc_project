@@ -4,7 +4,7 @@
             <b-button role="link" variant="link" class="logo-button"
             title="Alternativa para página inicial"
             aria-label="Alternativa para página inicial"
-            @click="$router.push({name: 'home'})">
+            @click="currentRoute=='home' ? scrollToTop() : $router.push({name: 'home'})">
                 <img src="@/assets/logo.svg" alt="Logo Notícias para Todos"
                 style="width:50px;height:50px; object-fit:contain !important; padding:0px;">
             </b-button>
@@ -97,13 +97,19 @@ export default {
                 })
             })
         },
+        scrollToTop(){
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth',
+            })
+        },
     }
 }
 </script>
 
 <style scoped>
 .navbar-parent{
-    background-color: #BAF1AB;
+    background-color: #bff0b2;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -136,7 +142,7 @@ export default {
     border-radius: 6px;
 }
 .nav-mobile-link:hover, .nav-desktop-link:hover{ text-decoration: underline; }
-.nav-mobile-link:hover{ color: black; background-color: #BAF1AB; }
+.nav-mobile-link:hover{ color: black; background-color: #bff0b2; }
 .nav-desktop-link:hover{ color: black; }
 .nav-mobile-link-active{
     color: black !important;

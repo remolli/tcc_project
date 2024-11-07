@@ -5,7 +5,7 @@
 
             <b-col :class="isMobile ? 'my-4' : 'mx-4'">
                 <div v-if="type=='popular'" class="w-100 h-100">
-                    <img 
+                    <img @click.prevent="addCookies(url)"
                     :src="image.url"
                     width="400"
                     height="350"
@@ -18,13 +18,14 @@
                         'max-height': '350px',
                         'border-radius': '20px',
                         'object-fit': 'cover',
+                        'cursor': 'pointer',
                     }">
                     <b-row v-for="(item,idx) in media" :key="idx" 
                     class="d-flex justify-content-end align-items-center"> 
                     </b-row>
                 </div>
                 <div v-else-if="type=='search'" class="w-100 h-100">
-                    <img 
+                    <img @click.prevent="addCookies(url)"
                     :src="image.url"
                     width="400"
                     height="350"
@@ -37,6 +38,7 @@
                         'max-height': '350px',
                         'border-radius': '20px',
                         'object-fit': 'cover',
+                        'cursor': 'pointer',
                     }">
                 </div>
             </b-col>

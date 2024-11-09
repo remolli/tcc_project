@@ -23,15 +23,15 @@
                                 type="text"
                                 placeholder="Digite aqui seu nome de usuário"
                                 v-model="username"
-                                :state="isValidUsername && !isBadText"
+                                :state="isValidUsername"
                                 :aria-invalid="username ? !isValidUsername : null"
                                 aria-errormessage="errorUsername"
                                 :disabled="loading"
                                 required
                                 >
                                 </b-form-input>
-                                <b-form-invalid-feedback id="errorUsername" :state="isValidUsername && !isBadText" style="text-align:start;">
-                                    {{  !isValidUsername ? "Pelo menos 3 caracteres." : isBadText ? "Remova as palavras inapropriadas." : ""}}
+                                <b-form-invalid-feedback id="errorUsername" :state="isValidUsername" style="text-align:start;">
+                                    {{  !isValidUsername ? "Pelo menos 3 caracteres." : ""}}
                                 </b-form-invalid-feedback>
                             </b-form-group>
                         </b-row>
@@ -134,30 +134,6 @@
 </template>
 
 <script>
-const Piii = require("piii");
-const piiiFilters = require("piii-filters");
-const regex = /^[a-zA-Z]+$/;
-const specificFilters = process.env.VUE_APP_TRASH_LIST.split(",").filter(e => regex.test(e));
-const removeAccents = string => string
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, "")
-
-const piii = new Piii({
-    filters: [
-    ...Object.values(piiiFilters),
-    ...specificFilters,
-    'admin', 'administrador'
-    ],
-    aliases: {
-    a: ["4", "@"],
-    e: ["3", "&"],
-    i: ["1", "l", "|"],
-    o: ["0"]
-    },
-    repeated: true,
-    cleaner: removeAccents,
-});
-
 export default {
     name: 'SecurityView',
     props: {
@@ -188,12 +164,6 @@ export default {
         }, 250)
     },
     computed:{
-        isBadText(){
-            if(this.username){
-                return piii.has(this.username);
-            }
-            else return true;
-        },
         isValidUsername(){
             if(!this.username) return null;
             return this.username.length >= 3;
@@ -214,7 +184,7 @@ export default {
     },
     methods:{
         validateForm(){
-            if(!this.isValidUsername || this.isBadText){
+            if(!this.isValidUsername){
                 this.$refs.inputUsername.focus();
                 return false;
             }

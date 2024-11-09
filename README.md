@@ -28,7 +28,7 @@
 
 ## Sobre
 
-O projeto [Notícia para Todos](https://noticias-para-todos.netlify.app), é utilizado para acessar notícias com acessibilidade para pessoas com deficiência. O sistema possui integração com a [API do The New York Times](https://developer.nytimes.com) para listagem das notícias, além da integração com [nossa própria API](https://github.com/Kelvinpedroza/NoticiasNT-api)
+O projeto [Notícia para Todos](https://noticias-para-todos.netlify.app), é utilizado para acessar notícias com acessibilidade para pessoas com deficiência. O sistema possui integração com a [API do The New York Times](https://developer.nytimes.com) para listagem das notícias, além da integração com [nossa própria API](https://github.com/Kelvinpedroza/NoticiasNT-api). 
 
 ### Arquitetura
 
